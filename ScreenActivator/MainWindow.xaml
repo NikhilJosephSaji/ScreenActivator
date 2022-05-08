@@ -1,0 +1,129 @@
+﻿<Window x:Class="ScreenActivator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScreenActivator" 
+        Closed="Window_Closed" 
+        WindowStartupLocation="CenterScreen" 
+        Closing="OnClose" ResizeMode="CanMinimize"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded" 
+        WindowStyle="None" Icon="Icons/Screen.png" 
+        StateChanged="OnStateChanged" 
+        IsVisibleChanged="OnIsVisibleChanged"
+        Title="ScreenActivator" Height="95" Width="295">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding SpecialKeyTyped}"  Gesture="Ctrl+Alt+P"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <LinearGradientBrush x:Key="normal" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF7B6B6" Offset="0.154"/>
+            <GradientStop Color="Red" Offset="0.992"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Clicked" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFF3A00" Offset="0"/>
+            <GradientStop Color="#FF680B0B" Offset="1"/>
+            <GradientStop Color="#FFD14236" Offset="0.232"/>
+            <GradientStop Color="#FEDE271C" Offset="0.352"/>
+            <GradientStop Color="#FEC50D06" Offset="0.536"/>
+            <GradientStop Color="#FF630907" Offset="0.788"/>
+        </LinearGradientBrush>
+        <Style x:Key="closebtn" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" CornerRadius="20" >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="minibtn" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" CornerRadius="20" >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="blue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="special" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" CornerRadius="10" >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border CornerRadius="5" BorderThickness="1" Margin="3" BorderBrush="Black" >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="85"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Label HorizontalAlignment="Center" FontSize="22">Screen Activator</Label>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
+                <Button x:Name="minibtn" Click="Button_Click_1" Margin="7,2,0,0" Width="40"  Style="{StaticResource minibtn}" Cursor="Hand">
+                    <Image Source="Icons/minimize-icon-23794.png" Stretch="Uniform" Margin="7" />
+                </Button>
+                <Button x:Name="closebtn" Margin="-5,2,0,0" Width="40" Click="Button_Click" Style="{StaticResource closebtn}" Cursor="Hand">
+                    <Image Source="Icons/close-icon-png-904785.png" Stretch="Uniform" Margin="7"/>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button x:Name="MOuse" Background="White"  Margin="10,1,10,0" Width="30" Height="30" Click="MOuse_Click" Cursor="Hand">
+                        <Image Source="/Icons/mouse+icon+computer+mouse+line+icon+mouse+mouse+icon+mouse-1320073118605145636_48.png" Stretch="Fill" />
+                    </Button>
+                    <Button Cursor="Hand" x:Name="KeyBoard" Background="White" Margin="0,1,0,0" Width="30" Height="30" Click="KeyBoard_Click">
+                        <Image Source="/Icons/keyboard-131964784884068302_48.png" Stretch="Fill" />
+                    </Button>
+                    <Button Cursor="Hand" x:Name="Screen" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="Screen_Click">
+                        <Image Source="/Icons/screen+icon-1320186918466137152_48.png" Stretch="Fill" Margin="2,5,2,0" />
+                    </Button>
+                    <Button Cursor="Hand" x:Name="Mute" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="Mute_Click">
+                        <Image Source="/Icons/speaker-icon-342966.png" Margin="1,1,1,1"  Stretch="Fill"/>
+                    </Button>
+                    <Button Cursor="Hand" x:Name="MuteMicrophone" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="MuteMicrophone_Click">
+                        <Image Source="Icons/mic+microphone+record+sound+speak+voice+icon-1320161596291231811_48.png" Margin="1,3,1,0"  Stretch="Fill"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel x:Name="SpecialFunctionPanel" Visibility="Collapsed">
+                    <Button x:Name="SpecialFunction"  Margin="0,10,0,0" Width="40" Height="40" Click="SpecialFunction_Click" Style="{StaticResource special}">
+                        <Image Source="/Icons/Danger_Icon_PNG_itweae.png" Stretch="Uniform" Margin="2"/>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.1"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

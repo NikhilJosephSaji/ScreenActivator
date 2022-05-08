@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<AssemblyName>ScreenActivator</AssemblyName>
+		<RootNamespace>ScreenActivator</RootNamespace>
+		<ApplicationIcon>ScreenIco.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<!-- Conditionally obtain references for the .NET Framework 4.5 target -->
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+		<Reference Include="System.Net.Http" />
+		<Reference Include="System.Threading.Tasks" />
+		<Reference Include="System.Web.Extensions" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Icons\close-icon-png-904785.png" />
+	  <None Remove="Icons\Close.jpg" />
+	  <None Remove="Icons\Danger_Icon_PNG_itweae.png" />
+	  <None Remove="Icons\keyboard-131964784884068302_48.png" />
+	  <None Remove="Icons\mic+microphone+record+sound+speak+voice+icon-1320161596291231811_48.png" />
+	  <None Remove="Icons\Mini.jpg" />
+	  <None Remove="Icons\minimize-icon-23794.png" />
+	  <None Remove="Icons\mouse+icon+computer+mouse+line+icon+mouse+mouse+icon+mouse-1320073118605145636_48.png" />
+	  <None Remove="Icons\screen+icon-1320186918466137152_48.png" />
+	  <None Remove="Icons\Screen.png" />
+	  <None Remove="Icons\speaker-icon-342966.png" />
+	  <None Remove="ScreenIco.ico" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NAudio" Version="2.0.1" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Icons\close-icon-png-904785.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\Close.jpg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\Danger_Icon_PNG_itweae.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\keyboard-131964784884068302_48.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\mic+microphone+record+sound+speak+voice+icon-1320161596291231811_48.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\Mini.jpg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\minimize-icon-23794.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\mouse+icon+computer+mouse+line+icon+mouse+mouse+icon+mouse-1320073118605145636_48.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\screen+icon-1320186918466137152_48.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\Screen.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Icons\speaker-icon-342966.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
+	  <Content Include="ScreenIco.ico">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+</Project>
