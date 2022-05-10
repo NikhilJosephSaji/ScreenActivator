@@ -18,16 +18,12 @@
     </Window.InputBindings>
     <Window.Resources>
         <LinearGradientBrush x:Key="normal" EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FFF7B6B6" Offset="0.154"/>
-            <GradientStop Color="Red" Offset="0.992"/>
+            <GradientStop Color="#FFE48B0A" Offset="0.234"/>
+            <GradientStop Color="#FFD9EE0E" Offset="0.799"/>
         </LinearGradientBrush>
         <LinearGradientBrush x:Key="Clicked" EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FFFF3A00" Offset="0"/>
-            <GradientStop Color="#FF680B0B" Offset="1"/>
-            <GradientStop Color="#FFD14236" Offset="0.232"/>
-            <GradientStop Color="#FEDE271C" Offset="0.352"/>
-            <GradientStop Color="#FEC50D06" Offset="0.536"/>
-            <GradientStop Color="#FF630907" Offset="0.788"/>
+            <GradientStop Color="#FFE48B0A" Offset="0.179"/>
+            <GradientStop Color="#FFEE0E0E" Offset="0.872"/>
         </LinearGradientBrush>
         <Style x:Key="closebtn" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Transparent"/>

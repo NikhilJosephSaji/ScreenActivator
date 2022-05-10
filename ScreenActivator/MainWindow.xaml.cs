@@ -199,9 +199,9 @@ namespace ScreenActivator
 
         private async void SpecialFunction_Click(object sender, RoutedEventArgs e)
         {
+            vm.ProcessHandleStop(false);
             ChangeBackgroundOfSpecialCase(false);
             await ChangetheSizeofUIandVisibility(false);
-            vm.ProcessHandleStop(false);
         }
         private void KeyBoard_Click(object sender, RoutedEventArgs e)
         {
