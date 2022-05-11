@@ -118,7 +118,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.2"/>
+                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.3"/>
             </StackPanel>
         </Grid>
     </Border>

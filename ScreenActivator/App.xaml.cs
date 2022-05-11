@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using Msg = CustomMessageBox;
 
 namespace ScreenActivator
 {
@@ -24,7 +25,7 @@ namespace ScreenActivator
 
             if (!createdNew)
             {
-                MessageBox.Show("The Application is Already running on ur Machine");
+                Msg.CustomMessageBox.Show("The Application is Already running on ur Machine");
                 // Bring other instance to front and exit.
                 Process current = Process.GetCurrentProcess();
                 foreach (Process process in Process.GetProcessesByName(current.ProcessName))

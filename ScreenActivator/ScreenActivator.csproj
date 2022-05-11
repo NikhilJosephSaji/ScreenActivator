@@ -8,9 +8,9 @@
 		<AssemblyName>ScreenActivator</AssemblyName>
 		<RootNamespace>ScreenActivator</RootNamespace>
 		<ApplicationIcon>ScreenIco.ico</ApplicationIcon>
-		<AssemblyVersion>1.0.2.2</AssemblyVersion>
-		<FileVersion>1.0.2.2</FileVersion>
-		<Version>1.0.2.2</Version>
+		<AssemblyVersion>1.0.2.3</AssemblyVersion>
+		<FileVersion>1.0.2.3</FileVersion>
+		<Version>1.0.2.3</Version>
 	</PropertyGroup>
 
 	<!-- Conditionally obtain references for the .NET Framework 4.5 target -->
@@ -74,6 +74,11 @@
 	  <Content Include="ScreenIco.ico">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <Reference Include="CustomMessageBox">
+	    <HintPath>..\Package\CustomMessageBox.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 </Project>
