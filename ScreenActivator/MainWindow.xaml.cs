@@ -16,7 +16,6 @@ namespace ScreenActivator
     public partial class MainWindow : Window
     {
         DispatcherTimer MOuseTimer = new DispatcherTimer();
-        DispatcherTimer IdleTimerFinder = new DispatcherTimer();
         DispatcherTimer KeyPressTimer = new DispatcherTimer();
         private System.Windows.Forms.NotifyIcon m_notifyIcon;
         private bool Speaker = false;
@@ -58,16 +57,33 @@ namespace ScreenActivator
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             KeepMonitorActive();
+            GetSpeakerandMicStatus();
             Screen.Background = Brushes.LightBlue;
-            Mute.Background = Brushes.LightBlue;
-            MuteMicrophone.Background = Brushes.LightBlue;
             ScreenRunning = true;
-            Speaker = true;
-            Mic = true;
+
             this.MouseLeftButtonDown += delegate
             {
                 try { DragMove(); } catch { }
             };
+        }
+
+        private void GetSpeakerandMicStatus()
+        {
+            if (!SetMicAndSpeaker("Speakers", true))
+            {
+                Mute.Background = Brushes.LightBlue;
+                Speaker = true;
+            }
+            else
+                Speaker = false;
+
+            if (!SetMicAndSpeaker("Microphone", true))
+            {
+                MuteMicrophone.Background = Brushes.LightBlue;
+                Mic = true;
+            }
+            else
+                Mic = false;
         }
 
         public void KeepMonitorActive()
@@ -83,7 +99,7 @@ namespace ScreenActivator
         }
 
         private void Changemousepointer(object sender, EventArgs e)
-        {          
+        {
             var handCoord = msCoord(ss[pos], radius);
             SetCursorPos(handCoord[0], handCoord[1]);
             pos++;
@@ -241,7 +257,7 @@ namespace ScreenActivator
 
         #endregion 
 
-        private void SetMicAndSpeaker(string sysdevice)
+        private bool SetMicAndSpeaker(string sysdevice, bool checkstatus = false)
         {
             using (var enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator())
             {
@@ -253,6 +269,8 @@ namespace ScreenActivator
                         {
                             if (sysdevice == "Speakers")
                             {
+                                if (checkstatus)
+                                    return device.AudioEndpointVolume.Mute;
                                 if (Speaker)
                                 { device.AudioEndpointVolume.Mute = true; Speaker = false; Mute.Background = Brushes.White; }
                                 else
@@ -260,6 +278,8 @@ namespace ScreenActivator
                             }
                             else if (sysdevice == "Microphone")
                             {
+                                if (checkstatus)
+                                    return device.AudioEndpointVolume.Mute;
                                 if (Mic)
                                 { device.AudioEndpointVolume.Mute = true; Mic = false; MuteMicrophone.Background = Brushes.White; }
                                 else
@@ -269,6 +289,7 @@ namespace ScreenActivator
                     }
                 }
             }
+            return false;
         }
 
         public void ChangeBackgroundOfSpecialCase(bool isclicked)
