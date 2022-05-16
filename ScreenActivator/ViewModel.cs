@@ -9,43 +9,19 @@ using System.Windows.Threading;
 
 namespace ScreenActivator
 {
-    public class ActionCommand : ICommand
-    {
-        private readonly Action _action;
-
-        public ActionCommand(Action action)
-        {
-            _action = action;
-        }
-
-        public void Execute(object parameter)
-        {
-            _action();
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public event EventHandler CanExecuteChanged;
-    }
-
     public class ViewModel
     {
         DispatcherTimer ProcessHandle = new DispatcherTimer();
         private bool Started = true;
         private MainWindow win;
+
+        public ICommand SpecialKeyTyped { get; set; }
         public ViewModel(MainWindow wins)
         {
             win = wins;
             SpecialKeyTyped = new DelegateCommand(SpecialFunction);
             ProcessHandle.Interval = new TimeSpan(0, 0, 15);
             ProcessHandle.Tick += KeyPressTimer_Tick;
-        }
-        public ICommand SpecialKeyTyped
-        {
-            get; set;
         }
 
         private async void SpecialFunction()
@@ -61,7 +37,7 @@ namespace ScreenActivator
             Process pro = new Process();
             pro.StartInfo.FileName = @"C:\Program Files\Internet Explorer\iexplore.exe";
             pro.Start();
-            new Program().Main();
+            new NotePad();
             Thread.Sleep(3000);
             pro.Kill();
         }
@@ -74,18 +50,15 @@ namespace ScreenActivator
             { ProcessHandle.Stop(); Started = true; }
         }
 
-        public class Program
-
+        public class NotePad
         {
-
             [DllImport("USER32.DLL")]
 
             public static extern bool SetForegroundWindow(IntPtr hWnd);
 
             static IntPtr notepadHandle;
 
-            public void Main()
-
+            public NotePad()
             {
                 //PREPARING...
                 Process notepad = new Process();
@@ -111,48 +84,32 @@ namespace ScreenActivator
                 notepad.Kill();
             }
 
-
-
-            void waitABit()
-
+            private void waitABit()
             {
                 Random r = new Random();
                 Thread.Sleep(r.Next(50, 200)); //Lower numbers is faster typing
             }
 
-            void waitABitLonger()
-
+            private void waitABitLonger()
             {
                 Random r = new Random();
-
                 Thread.Sleep(r.Next(2000, 5000)); //Higher numbers is longer waiting
-
             }
 
-            void SendKeyStroke(string KeyStroke)
-
+            private void SendKeyStroke(string KeyStroke)
             {
-
                 SetForegroundWindow(notepadHandle); //Make sure Notepad is the top window
-
                 SendKeys.SendWait(KeyStroke); //And send a keystroke
-
             }
 
-            void WriteLineToNotePad(string line)
-
+            private void WriteLineToNotePad(string line)
             {
-
                 for (int i = 0; i < line.Length; i++)
-
-                {//for every letter
-
+                {
+                    //for every letter
                     waitABit(); //wait a bit
-
                     SendKeyStroke(line[i].ToString()); //then send the keystroke
-
                 }
-
             }
 
         }
