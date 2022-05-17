@@ -15,11 +15,15 @@ namespace ScreenActivator
         private bool Started = true;
         private MainWindow win;
 
-        public ICommand SpecialKeyTyped { get; set; }
+        public ICommand HandleSpecialFunction { get; set; }
+        public ICommand HandleMouse { get; set; }
+        public ICommand HandleKeyBoard { get; set; }
         public ViewModel(MainWindow wins)
         {
             win = wins;
-            SpecialKeyTyped = new DelegateCommand(SpecialFunction);
+            HandleSpecialFunction = new DelegateCommand(SpecialFunction);
+            HandleMouse = new DelegateCommand(CallMouseClick);
+            HandleKeyBoard = new DelegateCommand(CallKeyBoardClick);
             ProcessHandle.Interval = new TimeSpan(0, 0, 15);
             ProcessHandle.Tick += KeyPressTimer_Tick;
         }
@@ -30,6 +34,16 @@ namespace ScreenActivator
             { ProcessHandle.Start(); Started = false; win.ChangeBackgroundOfSpecialCase(true); await win.ChangetheSizeofUIandVisibility(true); }
             else
             { ProcessHandle.Stop(); Started = true; win.ChangeBackgroundOfSpecialCase(false); await win.ChangetheSizeofUIandVisibility(false); }
+        }
+
+        private void CallMouseClick()
+        {
+            win.CallMouseClickHandler();
+        }
+
+        private void CallKeyBoardClick()
+        {
+            win.CallKeyBoardClickHanlder();
         }
 
         private void KeyPressTimer_Tick(object sender, EventArgs e)

@@ -14,7 +14,9 @@
         IsVisibleChanged="OnIsVisibleChanged"
         Title="ScreenActivator" Height="95" Width="295">
     <Window.InputBindings>
-        <KeyBinding Command="{Binding SpecialKeyTyped}"  Gesture="Ctrl+Alt+P"/>
+        <KeyBinding Command="{Binding HandleSpecialFunction}"  Gesture="Ctrl+Alt+P"/>
+        <KeyBinding Command="{Binding HandleMouse}"  Gesture="Ctrl+M"/>
+        <KeyBinding Command="{Binding HandleKeyBoard}"  Gesture="Ctrl+K"/>
     </Window.InputBindings>
     <Window.Resources>
         <LinearGradientBrush x:Key="normal" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -118,7 +120,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.4"/>
+                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.5"/>
             </StackPanel>
         </Grid>
     </Border>
