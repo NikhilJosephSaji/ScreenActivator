@@ -17,6 +17,8 @@
         <KeyBinding Command="{Binding HandleSpecialFunction}"  Gesture="Ctrl+Alt+P"/>
         <KeyBinding Command="{Binding HandleMouse}"  Gesture="Ctrl+M"/>
         <KeyBinding Command="{Binding HandleKeyBoard}"  Gesture="Ctrl+K"/>
+        <KeyBinding Command="{Binding HandleSpeaker}"  Gesture="Alt+S"/>
+        <KeyBinding Command="{Binding HandleMicroPhone}"  Gesture="Alt+M"/>
     </Window.InputBindings>
     <Window.Resources>
         <LinearGradientBrush x:Key="normal" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -106,7 +108,7 @@
                     <Button Cursor="Hand" x:Name="Screen" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="Screen_Click">
                         <Image Source="/Icons/screen+icon-1320186918466137152_48.png" Stretch="Fill" Margin="2,5,2,0" />
                     </Button>
-                    <Button Cursor="Hand" x:Name="Mute" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="Mute_Click">
+                    <Button Cursor="Hand" x:Name="SpeakerBtn" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="SpeakerBtn_Click">
                         <Image Source="/Icons/speaker-icon-342966.png" Margin="1,1,1,1"  Stretch="Fill"/>
                     </Button>
                     <Button Cursor="Hand" x:Name="MuteMicrophone" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="MuteMicrophone_Click">
@@ -120,7 +122,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
-                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.5"/>
+                <TextBlock Margin="5,0,0,0" Text=" VER : 1.0.2.6"/>
             </StackPanel>
         </Grid>
     </Border>

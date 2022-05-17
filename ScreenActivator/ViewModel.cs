@@ -18,12 +18,16 @@ namespace ScreenActivator
         public ICommand HandleSpecialFunction { get; set; }
         public ICommand HandleMouse { get; set; }
         public ICommand HandleKeyBoard { get; set; }
+        public ICommand HandleSpeaker { get; set; }
+        public ICommand HandleMicroPhone { get; set; }
         public ViewModel(MainWindow wins)
         {
             win = wins;
             HandleSpecialFunction = new DelegateCommand(SpecialFunction);
             HandleMouse = new DelegateCommand(CallMouseClick);
             HandleKeyBoard = new DelegateCommand(CallKeyBoardClick);
+            HandleSpeaker = new DelegateCommand(CallSpeakerClick);
+            HandleMicroPhone = new DelegateCommand(CallMicroPhoneClick);
             ProcessHandle.Interval = new TimeSpan(0, 0, 15);
             ProcessHandle.Tick += KeyPressTimer_Tick;
         }
@@ -44,6 +48,16 @@ namespace ScreenActivator
         private void CallKeyBoardClick()
         {
             win.CallKeyBoardClickHanlder();
+        }
+
+        private void CallMicroPhoneClick()
+        {
+            win.CallMicroPhoneClickHanlder();
+        }
+
+        private void CallSpeakerClick()
+        {
+            win.CallSpeakerClickHanlder();
         }
 
         private void KeyPressTimer_Tick(object sender, EventArgs e)

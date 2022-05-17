@@ -78,11 +78,21 @@ namespace ScreenActivator
             this.KeyBoard.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
+        public void CallMicroPhoneClickHanlder()
+        {
+            this.MuteMicrophone.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+
+        public void CallSpeakerClickHanlder()
+        {
+            this.SpeakerBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+
         private void GetSpeakerandMicStatus()
         {
             if (!SetMicAndSpeaker("Speakers", true))
             {
-                Mute.Background = Brushes.LightBlue;
+                SpeakerBtn.Background = Brushes.LightBlue;
                 Speaker = true;
             }
             else
@@ -256,7 +266,7 @@ namespace ScreenActivator
             }
         }
 
-        private void Mute_Click(object sender, RoutedEventArgs e)
+        private void SpeakerBtn_Click(object sender, RoutedEventArgs e)
         {
             SetMicAndSpeaker("Speakers");
         }
@@ -283,9 +293,9 @@ namespace ScreenActivator
                                 if (checkstatus)
                                     return device.AudioEndpointVolume.Mute;
                                 if (Speaker)
-                                { device.AudioEndpointVolume.Mute = true; Speaker = false; Mute.Background = Brushes.White; }
+                                { device.AudioEndpointVolume.Mute = true; Speaker = false; SpeakerBtn.Background = Brushes.White; }
                                 else
-                                { device.AudioEndpointVolume.Mute = false; Speaker = true; Mute.Background = Brushes.LightBlue; }
+                                { device.AudioEndpointVolume.Mute = false; Speaker = true; SpeakerBtn.Background = Brushes.LightBlue; }
                             }
                             else if (sysdevice == "Microphone")
                             {
