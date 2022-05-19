@@ -11,10 +11,11 @@ namespace ScreenActivator
 {
     public class ViewModel
     {
-        DispatcherTimer ProcessHandle = new DispatcherTimer();
-        private bool Started = true;
+        DispatcherTimer processHandle = new DispatcherTimer();
+        private bool started = false;
         private MainWindow win;
 
+        public bool SpecialFun { get { return started; } }
         public ICommand HandleSpecialFunction { get; set; }
         public ICommand HandleMouse { get; set; }
         public ICommand HandleKeyBoard { get; set; }
@@ -28,16 +29,16 @@ namespace ScreenActivator
             HandleKeyBoard = new DelegateCommand(CallKeyBoardClick);
             HandleSpeaker = new DelegateCommand(CallSpeakerClick);
             HandleMicroPhone = new DelegateCommand(CallMicroPhoneClick);
-            ProcessHandle.Interval = new TimeSpan(0, 0, 15);
-            ProcessHandle.Tick += KeyPressTimer_Tick;
+            processHandle.Interval = new TimeSpan(0, 0, 15);
+            processHandle.Tick += KeyPressTimer_Tick;
         }
 
         private async void SpecialFunction()
         {
-            if (Started)
-            { ProcessHandle.Start(); Started = false; win.ChangeBackgroundOfSpecialCase(true); await win.ChangetheSizeofUIandVisibility(true); }
+            if (!started)
+            { processHandle.Start(); started = true; win.ChangeBackgroundOfSpecialCase(true); await win.ChangetheSizeofUIandVisibility(true); }
             else
-            { ProcessHandle.Stop(); Started = true; win.ChangeBackgroundOfSpecialCase(false); await win.ChangetheSizeofUIandVisibility(false); }
+            { processHandle.Stop(); started = false; win.ChangeBackgroundOfSpecialCase(false); await win.ChangetheSizeofUIandVisibility(false); }
         }
 
         private void CallMouseClick()
@@ -73,9 +74,9 @@ namespace ScreenActivator
         public void ProcessHandleStop(bool start)
         {
             if (start)
-                ProcessHandle.Start();
+                processHandle.Start();
             else
-            { ProcessHandle.Stop(); Started = true; }
+            { processHandle.Stop(); started = false; }
         }
 
         public class NotePad
