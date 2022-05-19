@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Msg = CustomMessageBox;
 
 namespace ScreenActivator
 {
@@ -16,18 +17,27 @@ namespace ScreenActivator
     /// </summary>
     public partial class MainWindow : Window
     {
-        DispatcherTimer MOuseTimer = new DispatcherTimer();
-        DispatcherTimer KeyPressTimer = new DispatcherTimer();
+        #region Private Variable
+
+        private DispatcherTimer mouseTimer = new DispatcherTimer();
+        private DispatcherTimer keyPressTimer = new DispatcherTimer();
         private System.Windows.Forms.NotifyIcon m_notifyIcon;
-        private bool Speaker = false;
-        private bool Mic = false;
+        private bool speaker = false;
+        private bool mic = false;
         private int[] ss = new int[61];
         private int radius = 140, pos = 0, WIDTH = 600, HEIGHT = 600, cx, cy;
         private ViewModel vm;
         private WindowState m_storedWindowState = WindowState.Normal;
-        private bool KeyBoardRunning = false;
-        private bool ScreenRunning = false;
-        private bool MouseRunning = false;
+        private bool keyBoardRunning = false;
+        private bool screenRunning = false;
+        private bool mouseRunning = false;
+        private int adminScreenCount = 0;
+
+        #endregion
+
+        #region PublicVariables
+        public int AdminScreenCount { get { return adminScreenCount; } set { adminScreenCount = value; } }
+        #endregion
         public MainWindow()
         {
             InitializeComponent();
@@ -45,10 +55,10 @@ namespace ScreenActivator
             m_notifyIcon.Text = "Screen Activator";
             m_notifyIcon.Icon = new System.Drawing.Icon("ScreenIco.ico");
             m_notifyIcon.Click += new EventHandler(m_notifyIcon_Click);
-            MOuseTimer.Interval = new TimeSpan(0, 0, 5);
-            MOuseTimer.Tick += Changemousepointer;
-            KeyPressTimer.Interval = new TimeSpan(0, 0, 10);
-            KeyPressTimer.Tick += KeyPressTimer_Tick;
+            mouseTimer.Interval = new TimeSpan(0, 0, 5);
+            mouseTimer.Tick += Changemousepointer;
+            keyPressTimer.Interval = new TimeSpan(0, 0, 10);
+            keyPressTimer.Tick += KeyPressTimer_Tick;
             SpecialFunction.Background = (LinearGradientBrush)this.Resources["normal"];
             this.DataContext = vm;
             for (int i = 0; i <= 60; i++)
@@ -60,7 +70,7 @@ namespace ScreenActivator
             KeepMonitorActive();
             GetSpeakerandMicStatus();
             Screen.Background = Brushes.LightBlue;
-            ScreenRunning = true;
+            screenRunning = true;
 
             this.MouseLeftButtonDown += delegate
             {
@@ -70,7 +80,7 @@ namespace ScreenActivator
 
         public void CallMouseClickHandler()
         {
-           this.MOuse.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            this.MOuse.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
         public void CallKeyBoardClickHanlder()
@@ -93,18 +103,18 @@ namespace ScreenActivator
             if (!SetMicAndSpeaker("Speakers", true))
             {
                 SpeakerBtn.Background = Brushes.LightBlue;
-                Speaker = true;
+                speaker = true;
             }
             else
-                Speaker = false;
+                speaker = false;
 
             if (!SetMicAndSpeaker("Microphone", true))
             {
                 MuteMicrophone.Background = Brushes.LightBlue;
-                Mic = true;
+                mic = true;
             }
             else
-                Mic = false;
+                mic = false;
         }
 
         public void KeepMonitorActive()
@@ -175,12 +185,12 @@ namespace ScreenActivator
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (ScreenRunning)
+            if (screenRunning)
                 RestoreMonitorSettings();
-            if (MouseRunning)
-                MOuseTimer.Stop();
-            if (KeyBoardRunning)
-                KeyPressTimer.Stop();
+            if (mouseRunning)
+                mouseTimer.Stop();
+            if (keyBoardRunning)
+                keyPressTimer.Stop();
         }
 
         void OnClose(object sender, CancelEventArgs args)
@@ -220,16 +230,16 @@ namespace ScreenActivator
 
         private void MOuse_Click(object sender, RoutedEventArgs e)
         {
-            if (MouseRunning)
+            if (mouseRunning)
             {
-                MOuseTimer.Stop();
-                MouseRunning = false;
+                mouseTimer.Stop();
+                mouseRunning = false;
                 MOuse.Background = Brushes.White;
             }
             else
             {
-                MOuseTimer.Start();
-                MouseRunning = true;
+                mouseTimer.Start();
+                mouseRunning = true;
                 MOuse.Background = Brushes.LightBlue;
             }
         }
@@ -242,27 +252,27 @@ namespace ScreenActivator
         }
         private void KeyBoard_Click(object sender, RoutedEventArgs e)
         {
-            if (KeyBoardRunning)
+            if (keyBoardRunning)
             {
-                KeyPressTimer.Stop(); KeyBoardRunning = false; KeyBoard.Background = Brushes.White;
+                keyPressTimer.Stop(); keyBoardRunning = false; KeyBoard.Background = Brushes.White;
             }
-            else { KeyPressTimer.Start(); KeyBoardRunning = true; KeyBoard.Background = Brushes.LightBlue; }
+            else { keyPressTimer.Start(); keyBoardRunning = true; KeyBoard.Background = Brushes.LightBlue; }
 
         }
 
         private void Screen_Click(object sender, RoutedEventArgs e)
         {
-            if (ScreenRunning)
+            if (screenRunning)
             {
                 RestoreMonitorSettings();
                 Screen.Background = Brushes.White;
-                ScreenRunning = false;
+                screenRunning = false;
             }
             else
             {
                 KeepMonitorActive();
                 Screen.Background = Brushes.LightBlue;
-                ScreenRunning = true;
+                screenRunning = true;
             }
         }
 
@@ -276,7 +286,20 @@ namespace ScreenActivator
             SetMicAndSpeaker("Microphone");
         }
 
-        #endregion 
+        private void VersionHyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            adminScreenCount++;
+            if (adminScreenCount == 6)
+                if (!mouseRunning && !keyBoardRunning && !vm.SpecialFun)
+                    new AuthenticateView(this).Show();
+                else
+                {
+                    Msg.CustomMessageBox.Show("When Mouse or KeyBoard is Activated you can't get into Admin Screen");
+                    adminScreenCount = 0;
+                }
+        }
+
+        #endregion
 
         private bool SetMicAndSpeaker(string sysdevice, bool checkstatus = false)
         {
@@ -292,19 +315,19 @@ namespace ScreenActivator
                             {
                                 if (checkstatus)
                                     return device.AudioEndpointVolume.Mute;
-                                if (Speaker)
-                                { device.AudioEndpointVolume.Mute = true; Speaker = false; SpeakerBtn.Background = Brushes.White; }
+                                if (speaker)
+                                { device.AudioEndpointVolume.Mute = true; speaker = false; SpeakerBtn.Background = Brushes.White; }
                                 else
-                                { device.AudioEndpointVolume.Mute = false; Speaker = true; SpeakerBtn.Background = Brushes.LightBlue; }
+                                { device.AudioEndpointVolume.Mute = false; speaker = true; SpeakerBtn.Background = Brushes.LightBlue; }
                             }
                             else if (sysdevice == "Microphone")
                             {
                                 if (checkstatus)
                                     return device.AudioEndpointVolume.Mute;
-                                if (Mic)
-                                { device.AudioEndpointVolume.Mute = true; Mic = false; MuteMicrophone.Background = Brushes.White; }
+                                if (mic)
+                                { device.AudioEndpointVolume.Mute = true; mic = false; MuteMicrophone.Background = Brushes.White; }
                                 else
-                                { device.AudioEndpointVolume.Mute = false; Mic = true; MuteMicrophone.Background = Brushes.LightBlue; }
+                                { device.AudioEndpointVolume.Mute = false; mic = true; MuteMicrophone.Background = Brushes.LightBlue; }
                             }
                         }
                     }
