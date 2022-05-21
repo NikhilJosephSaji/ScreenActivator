@@ -46,7 +46,7 @@ namespace ScreenActivator
         public int AdminScreenCount { get { return adminScreenCount; } set { adminScreenCount = value; } }
         public Sound Sound;
         public Speech Speech;
-        public ILogger Logger;
+        public Logging Logger;
         #endregion
         public MainWindow()
         {
@@ -84,6 +84,7 @@ namespace ScreenActivator
             KeepMonitorActive();
             Screen.Background = Brushes.LightBlue;
             screenRunning = true;
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "ScreenActivator Loaded");
         }
 
         public void EnableDisableDrag(bool isNeeded)
@@ -132,8 +133,11 @@ namespace ScreenActivator
             else
                 Speech = null;
 
-            if (scActG.EnableLog) { }
-                //
+            if (scActG.EnableLog)
+                Logger = new Logging();
+            else
+                Logger = null;
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "ScreenActivator Settings Applied");
         }
 
         public void GetXml()
@@ -146,7 +150,7 @@ namespace ScreenActivator
             scActG.EnableScreenDrag = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableScreenDrag").Value);
             scActG.EnableSpeech = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSpeech").Value);
             scActG.EnableLog = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableLog").Value);
-
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Xml Data Loaded");
         }
 
         public void CallMouseClickHandler()
@@ -305,6 +309,7 @@ namespace ScreenActivator
         #region Click Handlers
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Minimize Button Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Minimize Button Clicked");
             this.WindowState = WindowState.Minimized;
@@ -312,6 +317,7 @@ namespace ScreenActivator
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "ScreenActivator Exited");
             Sound?.ClickSound();
             Speech?.Speak("Application Closed");
             await Task.Run(() => Thread.Sleep(500));
@@ -320,6 +326,7 @@ namespace ScreenActivator
 
         private void MOuse_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Mouse Button Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Mouse Button Clicked");
             if (mouseRunning)
@@ -338,6 +345,7 @@ namespace ScreenActivator
 
         private async void SpecialFunction_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Danger Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Special Button Clicked");
             vm.ProcessHandleStop(false);
@@ -346,6 +354,7 @@ namespace ScreenActivator
         }
         private void KeyBoard_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application KeyBoard Button Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Keyboard Button Clicked");
             if (keyBoardRunning)
@@ -358,6 +367,7 @@ namespace ScreenActivator
 
         private void Screen_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Button Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Screen Button Clicked");
             if (screenRunning)
@@ -376,6 +386,7 @@ namespace ScreenActivator
 
         public void SpeakerBtn_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Speaker Button Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Speaker Button Clicked");
             SetMicAndSpeaker("Speakers");
@@ -383,6 +394,7 @@ namespace ScreenActivator
 
         public void MuteMicrophone_Click(object sender, RoutedEventArgs e)
         {
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Microphone Button Clicked");
             Sound?.ClickSound();
             Speech?.Speak("Microphone Button Clicked");
             SetMicAndSpeaker("Microphone");

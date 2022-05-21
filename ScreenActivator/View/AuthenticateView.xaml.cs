@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logger;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -25,6 +26,7 @@ namespace ScreenActivator
             InitializeComponent();
             ErrorMsg.Visibility = Visibility.Collapsed;
             _win.Speech?.Speak("Authenticate Window Opened");
+            _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Authenticate Window Loaded");
         }
 
         private bool valid()
@@ -50,6 +52,7 @@ namespace ScreenActivator
 
         private void Validate_Click(object sender, RoutedEventArgs e)
         {
+            _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Validate Button Clicked");
             _win.Sound?.ClickSound();            
             if (!valid())
                 return;
@@ -70,6 +73,7 @@ namespace ScreenActivator
 
         private void ValidateCloseButton_Click(object sender, RoutedEventArgs e)
         {
+            _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Authenticate Window Close Button Clicked");
             _win.Sound?.ClickSound();
             _win.Speech?.Speak("Authenticate Window Closed");
             _win.AdminScreenCount = 0;
