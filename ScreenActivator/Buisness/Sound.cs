@@ -33,6 +33,11 @@ namespace ScreenActivator.Buisness
             SystemSounds.Exclamation.Play();
         }
 
+        public static void Warning()
+        {
+            SystemSounds.Exclamation.Play();
+        }
+
         public void QuestionSound()
         {
             SystemSounds.Question.Play();
