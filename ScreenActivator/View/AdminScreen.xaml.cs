@@ -3,6 +3,7 @@ using ScreenActivator.Buisness;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 using Msg = CustomMessageBox;
 
 namespace ScreenActivator
@@ -14,6 +15,7 @@ namespace ScreenActivator
     {
         private MainWindow _win;
         private XmlHelper xml;
+        private bool _drag_Value;
         public AdminScreen(MainWindow win)
         {
             _win = win;
@@ -64,13 +66,24 @@ namespace ScreenActivator
             xml.Xml.Element("EnableLog").Value = EnableLog.IsChecked.ToString();
             if (xml.SaveXml() == 1)
                 Msg.CustomMessageBox.Show("Settings Saved Sucessfully !");
+            _drag_Value = false;
             _win.GetXml();
             _win.ApplySettings();
+            if (!_drag_Value)
+                if (EnableScreenDrag.IsChecked.Value)
+                    if (Msg.CustomMessageBox.Show("Restart is Required as Enable the Screen Drag. Do you want to Restart.", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                        new ScreenActivatorHelper(_win).RestartMyApplication();
         }
 
         private void AdminScreen_Loaded(object sender, RoutedEventArgs e)
         {
             _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "AdminSCreen Window Loaded");
+            GetXmlData();
+            _win.Speech?.Speak("Admin Window Opened");
+        }
+
+        private void GetXmlData()
+        {
             xml = new XmlHelper();
             DisableMicroPhone.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableMicroPhone").Value);
             DisableSpeaker.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableSpeaker").Value);
@@ -79,7 +92,7 @@ namespace ScreenActivator
             EnableScreenDrag.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableScreenDrag").Value);
             EnableSpeech.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSpeech").Value);
             EnableLog.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableLog").Value);
-            _win.Speech?.Speak("Admin Window Opened");
+            _drag_Value = false;
         }
 
         private void EnableSoundAndSpeech_Click(object sender, RoutedEventArgs e)

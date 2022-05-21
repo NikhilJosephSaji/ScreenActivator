@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -42,7 +44,7 @@ namespace ScreenActivator.Buisness
         }
 
         const int WM_SYSCOMMAND = 0x0112;
-        const int SC_MOVE = 0xF010;       
+        const int SC_MOVE = 0xF010;
 
         public IntPtr WndProcNoMove(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -60,6 +62,13 @@ namespace ScreenActivator.Buisness
                     break;
             }
             return IntPtr.Zero;
+        }
+
+        public void RestartMyApplication()
+        {
+            var path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            Process.Start(path + "\\Restarter.exe");
+            Environment.Exit(0);
         }
     }
 }
