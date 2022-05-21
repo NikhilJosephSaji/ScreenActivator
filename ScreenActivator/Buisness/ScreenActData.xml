@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScreenActivators>
+  <DisableMicroPhone>true</DisableMicroPhone>
+  <DisableSpeaker>false</DisableSpeaker>
+  <EnableSound>false</EnableSound>
+  <EnableMinimize>false</EnableMinimize>
+  <EnableScreenDrag>false</EnableScreenDrag>
+  <EnableSpeech>false</EnableSpeech>
+  <EnableLog>false</EnableLog>
+</ScreenActivators>
