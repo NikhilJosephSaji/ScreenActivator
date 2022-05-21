@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScreenActivator.Buisness;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -28,6 +29,7 @@ namespace ScreenActivator
 
             if (!createdNew)
             {
+                Sound.Warning();
                 Msg.CustomMessageBox.Show("The Application is Already running on ur Machine");
                 // Bring other instance to front and exit.
                 Process current = Process.GetCurrentProcess();
