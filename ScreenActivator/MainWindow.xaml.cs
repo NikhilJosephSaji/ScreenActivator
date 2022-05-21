@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScreenActivator.Buisness;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Msg = CustomMessageBox;
@@ -32,11 +34,17 @@ namespace ScreenActivator
         private bool screenRunning = false;
         private bool mouseRunning = false;
         private int adminScreenCount = 0;
+        private ScreenActivatorGlobal scActG;
+        private ScreenActivatorHelper helper;
+        private WindowInteropHelper help;
+        private HwndSource source;
 
         #endregion
 
         #region PublicVariables
         public int AdminScreenCount { get { return adminScreenCount; } set { adminScreenCount = value; } }
+        public Sound sound;
+        public Speech speech;
         #endregion
         public MainWindow()
         {
@@ -67,15 +75,73 @@ namespace ScreenActivator
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            help = new WindowInteropHelper(this);
+            source = HwndSource.FromHwnd(help.Handle);
+            GetXml();
+            ApplySettings();
             KeepMonitorActive();
-            GetSpeakerandMicStatus();
             Screen.Background = Brushes.LightBlue;
             screenRunning = true;
+        }
 
-            this.MouseLeftButtonDown += delegate
+        public void EnableDisableDrag(bool isNeeded)
+        {
+            if (!isNeeded)
             {
-                try { DragMove(); } catch { }
-            };
+                source.AddHook(helper.WndProcNoMove);
+            }
+            else
+            {
+                source.RemoveHook(helper.WndProcNoMove);
+            }
+        }
+
+        public void ApplySettings()
+        {
+            helper = new ScreenActivatorHelper(this);
+            if (scActG.DisableMicroPhone)
+                helper.DisableEnableMicButton(scActG.DisableMicroPhone);
+            else
+            {
+                helper.DisableEnableMicButton(scActG.DisableMicroPhone);
+                GetSpeakerandMicStatus(false);
+            }
+
+            if (scActG.DisableSpeaker)
+                helper.DisableEnableSpeaker(scActG.DisableSpeaker);
+            else
+            {
+                helper.DisableEnableSpeaker(scActG.DisableSpeaker);
+                GetSpeakerandMicStatus(true);
+            }
+
+            if (scActG.EnableScreenDrag)
+                EnableDisableDrag(true);
+            else
+                EnableDisableDrag(false);
+
+            if (scActG.EnableSound)
+                sound = new Sound();
+            else
+                sound = null;
+
+            if (scActG.EnableSpeech)
+                speech = new Speech();
+            else
+                speech = null;
+        }
+
+        public void GetXml()
+        {
+            XmlHelper xml = new XmlHelper();
+            scActG.DisableMicroPhone = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableMicroPhone").Value);
+            scActG.DisableSpeaker = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableSpeaker").Value);
+            scActG.EnableSound = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSound").Value);
+            scActG.EnableMinimize = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableMinimize").Value);
+            scActG.EnableScreenDrag = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableScreenDrag").Value);
+            scActG.EnableSpeech = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSpeech").Value);
+            scActG.EnableLog = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableLog").Value);
+
         }
 
         public void CallMouseClickHandler()
@@ -98,23 +164,34 @@ namespace ScreenActivator
             this.SpeakerBtn.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
         }
 
-        private void GetSpeakerandMicStatus()
+        private void GetSpeakerandMicStatus(bool _speaker)
         {
-            if (!SetMicAndSpeaker("Speakers", true))
+            if (_speaker)
             {
-                SpeakerBtn.Background = Brushes.LightBlue;
-                speaker = true;
+                if (!SetMicAndSpeaker("Speakers", true))
+                {
+                    SpeakerBtn.Background = Brushes.LightBlue;
+                    speaker = true;
+                }
+                else
+                {
+                    speaker = false;
+                    SpeakerBtn.Background = Brushes.White;
+                }
             }
             else
-                speaker = false;
-
-            if (!SetMicAndSpeaker("Microphone", true))
             {
-                MuteMicrophone.Background = Brushes.LightBlue;
-                mic = true;
+                if (!SetMicAndSpeaker("Microphone", true))
+                {
+                    MuteMicrophone.Background = Brushes.LightBlue;
+                    mic = true;
+                }
+                else
+                {
+                    mic = false;
+                    MuteMicrophone.Background = Brushes.White;
+                }
             }
-            else
-                mic = false;
         }
 
         public void KeepMonitorActive()
@@ -220,16 +297,23 @@ namespace ScreenActivator
         #region Click Handlers
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Minimize Button Clicked");
             this.WindowState = WindowState.Minimized;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Application Closed");
+            await Task.Run(() => Thread.Sleep(500));
             this.Close();
         }
 
         private void MOuse_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Mouse Button Clicked");
             if (mouseRunning)
             {
                 mouseTimer.Stop();
@@ -246,12 +330,16 @@ namespace ScreenActivator
 
         private async void SpecialFunction_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Special Button Clicked");
             vm.ProcessHandleStop(false);
             ChangeBackgroundOfSpecialCase(false);
             await ChangetheSizeofUIandVisibility(false);
         }
         private void KeyBoard_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Keyboard Button Clicked");
             if (keyBoardRunning)
             {
                 keyPressTimer.Stop(); keyBoardRunning = false; KeyBoard.Background = Brushes.White;
@@ -262,6 +350,8 @@ namespace ScreenActivator
 
         private void Screen_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Screen Button Clicked");
             if (screenRunning)
             {
                 RestoreMonitorSettings();
@@ -276,13 +366,17 @@ namespace ScreenActivator
             }
         }
 
-        private void SpeakerBtn_Click(object sender, RoutedEventArgs e)
+        public void SpeakerBtn_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Speaker Button Clicked");
             SetMicAndSpeaker("Speakers");
         }
 
-        private void MuteMicrophone_Click(object sender, RoutedEventArgs e)
+        public void MuteMicrophone_Click(object sender, RoutedEventArgs e)
         {
+            sound?.ClickSound();
+            speech?.Speak("Microphone Button Clicked");
             SetMicAndSpeaker("Microphone");
         }
 
