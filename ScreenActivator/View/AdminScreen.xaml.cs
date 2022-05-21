@@ -1,12 +1,7 @@
 ﻿using ScreenActivator.Buisness;
-using System;
-using System.IO;
-using System.Reflection;
-using System.Text;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Xml.Linq;
 using Msg = CustomMessageBox;
 
 namespace ScreenActivator
@@ -36,7 +31,8 @@ namespace ScreenActivator
 
         private void FeedBack_Click(object sender, RoutedEventArgs e)
         {
-
+            var url = "http://screenactivator.com/";
+            Process.Start("chrome.exe", url);
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
