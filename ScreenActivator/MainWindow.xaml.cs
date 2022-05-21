@@ -1,4 +1,5 @@
-﻿using ScreenActivator.Buisness;
+﻿using Logger;
+using ScreenActivator.Buisness;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -43,8 +44,9 @@ namespace ScreenActivator
 
         #region PublicVariables
         public int AdminScreenCount { get { return adminScreenCount; } set { adminScreenCount = value; } }
-        public Sound sound;
-        public Speech speech;
+        public Sound Sound;
+        public Speech Speech;
+        public ILogger Logger;
         #endregion
         public MainWindow()
         {
@@ -121,14 +123,17 @@ namespace ScreenActivator
                 EnableDisableDrag(false);
 
             if (scActG.EnableSound)
-                sound = new Sound();
+                Sound = new Sound();
             else
-                sound = null;
+                Sound = null;
 
             if (scActG.EnableSpeech)
-                speech = new Speech();
+                Speech = new Speech();
             else
-                speech = null;
+                Speech = null;
+
+            if (scActG.EnableLog) { }
+                //
         }
 
         public void GetXml()
@@ -300,23 +305,23 @@ namespace ScreenActivator
         #region Click Handlers
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Minimize Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Minimize Button Clicked");
             this.WindowState = WindowState.Minimized;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Application Closed");
+            Sound?.ClickSound();
+            Speech?.Speak("Application Closed");
             await Task.Run(() => Thread.Sleep(500));
             this.Close();
         }
 
         private void MOuse_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Mouse Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Mouse Button Clicked");
             if (mouseRunning)
             {
                 mouseTimer.Stop();
@@ -333,16 +338,16 @@ namespace ScreenActivator
 
         private async void SpecialFunction_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Special Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Special Button Clicked");
             vm.ProcessHandleStop(false);
             ChangeBackgroundOfSpecialCase(false);
             await ChangetheSizeofUIandVisibility(false);
         }
         private void KeyBoard_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Keyboard Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Keyboard Button Clicked");
             if (keyBoardRunning)
             {
                 keyPressTimer.Stop(); keyBoardRunning = false; KeyBoard.Background = Brushes.White;
@@ -353,8 +358,8 @@ namespace ScreenActivator
 
         private void Screen_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Screen Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Screen Button Clicked");
             if (screenRunning)
             {
                 RestoreMonitorSettings();
@@ -371,15 +376,15 @@ namespace ScreenActivator
 
         public void SpeakerBtn_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Speaker Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Speaker Button Clicked");
             SetMicAndSpeaker("Speakers");
         }
 
         public void MuteMicrophone_Click(object sender, RoutedEventArgs e)
         {
-            sound?.ClickSound();
-            speech?.Speak("Microphone Button Clicked");
+            Sound?.ClickSound();
+            Speech?.Speak("Microphone Button Clicked");
             SetMicAndSpeaker("Microphone");
         }
 

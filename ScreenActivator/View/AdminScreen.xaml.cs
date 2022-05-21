@@ -17,13 +17,13 @@ namespace ScreenActivator
         {
             _win = win;
             InitializeComponent();
-            _win.speech?.Speak("Admin Window Opened");
+            _win.Speech?.Speak("Admin Window Opened");
         }
 
         private void closebtn_Click(object sender, RoutedEventArgs e)
         {
-            _win.speech?.Speak("Admin window Closed");
-            _win.sound?.ClickSound();
+            _win.Speech?.Speak("Admin window Closed");
+            _win.Sound?.ClickSound();
             _win.AdminScreenCount = 0;
             this.Close();
             _win.Show();
@@ -37,8 +37,8 @@ namespace ScreenActivator
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            _win.sound?.ClickSound();
-            _win.speech?.Speak("Save Button Clicked");
+            _win.Sound?.ClickSound();
+            _win.Speech?.Speak("Save Button Clicked");
             xml.Xml.Element("DisableMicroPhone").Value = DisableMicroPhone.IsChecked.ToString();
             xml.Xml.Element("DisableSpeaker").Value = DisableSpeaker.IsChecked.ToString();
             xml.Xml.Element("EnableSound").Value = EnableSound.IsChecked.ToString();

@@ -24,7 +24,7 @@ namespace ScreenActivator
             _win = win;
             InitializeComponent();
             ErrorMsg.Visibility = Visibility.Collapsed;
-            _win.speech?.Speak("Authenticate Window Opened");
+            _win.Speech?.Speak("Authenticate Window Opened");
         }
 
         private bool valid()
@@ -33,7 +33,7 @@ namespace ScreenActivator
             {
                 ErrorMsg.Visibility = Visibility.Visible;
                 ErrorMsg.Content = "Please Enter UsserName";
-                _win.speech?.Speak(ErrorMsg.Content.ToString());
+                _win.Speech?.Speak(ErrorMsg.Content.ToString());
                 return false;
             }
 
@@ -41,7 +41,7 @@ namespace ScreenActivator
             {
                 ErrorMsg.Visibility = Visibility.Visible;
                 ErrorMsg.Content = "Please Enter Password";
-                _win.speech?.Speak(ErrorMsg.Content.ToString());
+                _win.Speech?.Speak(ErrorMsg.Content.ToString());
                 return false;
             }
 
@@ -50,12 +50,12 @@ namespace ScreenActivator
 
         private void Validate_Click(object sender, RoutedEventArgs e)
         {
-            _win.sound?.ClickSound();            
+            _win.Sound?.ClickSound();            
             if (!valid())
                 return;
             if (ValidateUsserName.Text == "admin" && validatePassword.Password == "admin")
             {
-                _win.speech?.Speak("Validate User");
+                _win.Speech?.Speak("Validate User");
                 Thread.Sleep(1000);
                 this.Close();
                 new AdminScreen(_win).Show();
@@ -64,14 +64,14 @@ namespace ScreenActivator
             {
                 ErrorMsg.Visibility = Visibility.Visible;
                 ErrorMsg.Content = "Authentication Failed";
-                _win.speech?.Speak(ErrorMsg.Content.ToString());
+                _win.Speech?.Speak(ErrorMsg.Content.ToString());
             }
         }
 
         private void ValidateCloseButton_Click(object sender, RoutedEventArgs e)
         {
-            _win.sound?.ClickSound();
-            _win.speech?.Speak("Authenticate Window Closed");
+            _win.Sound?.ClickSound();
+            _win.Speech?.Speak("Authenticate Window Closed");
             _win.AdminScreenCount = 0;
             this.Close();
         }

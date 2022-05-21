@@ -231,7 +231,7 @@
                     <WrapPanel>
                         <TextBlock Text="Disable MicroPhone" Width="150" FontSize="15"/>
                         <TextBlock Text=":"  FontSize="15"/>
-                        <ToggleButton Margin="50,0,0,0"  x:Name="DisableMicroPhone" Width="37" Height="20" VerticalAlignment="Center" Style="{StaticResource SwitchTypeToggleButton}"/>
+                        <ToggleButton Margin="50,0,0,0"  x:Name="DisableMicroPhone" Width="37" Height="20" VerticalAlignment="Top" Style="{StaticResource SwitchTypeToggleButton}"/>
                     </WrapPanel>
                     <WrapPanel Margin="0,10,0,0">
                         <TextBlock Text="Disable Speaker" Width="150" FontSize="15"/>
