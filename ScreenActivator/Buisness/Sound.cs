@@ -13,10 +13,6 @@ namespace ScreenActivator.Buisness
         private string path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
         private SoundPlayer player;
 
-        public Sound()
-        {
-            player = new SoundPlayer(path + @"\Sound\ClickSound.wav");
-        }
         public void BeepSound()
         {
             SystemSounds.Beep.Play();
@@ -44,6 +40,13 @@ namespace ScreenActivator.Buisness
 
         public void ClickSound()
         {
+            player = new SoundPlayer(path + @"\Sound\ClickSound.wav");
+            player.Play();
+        }
+
+        public void DangerSound()
+        {
+            player = new SoundPlayer(path + @"\Sound\Danger.wav");
             player.Play();
         }
     }
