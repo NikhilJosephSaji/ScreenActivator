@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 using Msg = CustomMessageBox;
 
 namespace ScreenActivator
@@ -20,6 +21,7 @@ namespace ScreenActivator
         static extern bool SetForegroundWindow(IntPtr hWnd);
         App()
         {
+            Dispatcher.UnhandledException += Dispatcher_UnhandledException;
             // Try to grab mutex
             bool createdNew;
             _mutex = new Mutex(true, "ScreenActivator", out createdNew);
@@ -49,6 +51,12 @@ namespace ScreenActivator
                 Exit += CloseMutexHandler;
             }
         }
+
+        private void Dispatcher_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Msg.CustomMessageBox.Show(e.Exception.Message);
+        }
+
         protected virtual void CloseMutexHandler(object sender, EventArgs e)
         {
             _mutex?.Close();
