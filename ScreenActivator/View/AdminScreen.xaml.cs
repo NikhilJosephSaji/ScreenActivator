@@ -33,9 +33,21 @@ namespace ScreenActivator
 
         private void FeedBack_Click(object sender, RoutedEventArgs e)
         {
+            _win.Sound?.ClickSound();
             _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "AdminScreen FeedBack Link Clicked");
-            var url = "http://screenactivator.com/";
-            Process.Start("chrome.exe", url);
+            var url = "https://screenactivator.com/";
+            try
+            {
+                Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", url);
+            }
+            catch
+            {
+                try { Process.Start(@"C:\Program Files\Internet Explorer\iexplore.exe", url); }
+                catch
+                {
+                    Process.Start(@"C:\Program Files(x86)\Internet Explorer\iexplore.exe", url);
+                }
+            }
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
