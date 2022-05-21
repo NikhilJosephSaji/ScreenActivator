@@ -23,6 +23,9 @@ namespace ScreenActivator
             bool createdNew;
             _mutex = new Mutex(true, "ScreenActivator", out createdNew);
 
+            // InitializeLog
+            Logger.Log.Logger.InitializeLog();
+
             if (!createdNew)
             {
                 Msg.CustomMessageBox.Show("The Application is Already running on ur Machine");
