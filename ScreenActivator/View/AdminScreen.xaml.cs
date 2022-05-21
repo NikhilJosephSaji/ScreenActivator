@@ -64,9 +64,9 @@ namespace ScreenActivator
             xml.Xml.Element("EnableScreenDrag").Value = EnableScreenDrag.IsChecked.ToString();
             xml.Xml.Element("EnableSpeech").Value = EnableSpeech.IsChecked.ToString();
             xml.Xml.Element("EnableLog").Value = EnableLog.IsChecked.ToString();
+            _drag_Value = new XmlHelper().Xml.Element("EnableScreenDrag").Value.Contains("False") ? false : true;
             if (xml.SaveXml() == 1)
-                Msg.CustomMessageBox.Show("Settings Saved Sucessfully !");
-            _drag_Value = false;
+                Msg.CustomMessageBox.Show("Settings Saved Sucessfully !");            
             _win.GetXml();
             _win.ApplySettings();
             if (!_drag_Value)
