@@ -35,6 +35,7 @@ namespace ScreenActivator
 
         private async void SpecialFunction()
         {
+            win.Sound?.ClickSound();
             if (!started)
             { processHandle.Start(); started = true; win.ChangeBackgroundOfSpecialCase(true); await win.ChangetheSizeofUIandVisibility(true); }
             else

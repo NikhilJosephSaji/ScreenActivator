@@ -461,6 +461,7 @@ namespace ScreenActivator
         public async Task ChangetheSizeofUIandVisibility(bool isneeded)
         {
             await Task.Run(() => { Thread.Sleep(3000); });
+            Sound?.DangerSound();
             if (isneeded)
             { await HeightIncreaser(true); SpecialFunctionPanel.Visibility = Visibility.Visible; }
             else

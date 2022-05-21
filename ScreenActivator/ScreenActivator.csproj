@@ -34,6 +34,8 @@
 	  <None Remove="Icons\speaker-icon-342966.png" />
 	  <None Remove="ScreenIco.ico" />
 	  <None Remove="Sound\ClickSound.wav" />
+	  <None Remove="Sound\Danger.mp3" />
+	  <None Remove="Sound\Danger.wav" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="NAudio" Version="2.0.1" />
@@ -44,6 +46,9 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Sound\ClickSound.wav">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Sound\Danger.wav">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Resource Include="Icons\close-icon-png-904785.png">
