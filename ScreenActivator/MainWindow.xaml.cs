@@ -286,9 +286,12 @@ namespace ScreenActivator
         {
             if (WindowState == WindowState.Minimized)
             {
-                Hide();
-                if (m_notifyIcon != null)
-                    m_notifyIcon.ShowBalloonTip(2000);
+                if (scActG.EnableMinimize)
+                {
+                    Hide();
+                    if (m_notifyIcon != null)
+                        m_notifyIcon.ShowBalloonTip(2000);
+                }
             }
             else
                 m_storedWindowState = WindowState;
