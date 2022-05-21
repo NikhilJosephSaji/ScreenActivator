@@ -71,8 +71,11 @@ namespace ScreenActivator
             _win.ApplySettings();
             if (!_drag_Value)
                 if (EnableScreenDrag.IsChecked.Value)
-                    if (Msg.CustomMessageBox.Show("Restart is Required as Enable the Screen Drag. Do you want to Restart.", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    _win.Sound?.ExclamationSound();
+                    if (Msg.CustomMessageBox.Show("Restart is Required as the Screen Drag is Enabled. Do you want to Restart.", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                         new ScreenActivatorHelper(_win).RestartMyApplication();
+                }
         }
 
         private void AdminScreen_Loaded(object sender, RoutedEventArgs e)
@@ -92,7 +95,6 @@ namespace ScreenActivator
             EnableScreenDrag.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableScreenDrag").Value);
             EnableSpeech.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSpeech").Value);
             EnableLog.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableLog").Value);
-            _drag_Value = false;
         }
 
         private void EnableSoundAndSpeech_Click(object sender, RoutedEventArgs e)
