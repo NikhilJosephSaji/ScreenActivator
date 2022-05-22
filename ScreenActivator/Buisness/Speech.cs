@@ -9,7 +9,7 @@ namespace ScreenActivator.Buisness
 {
     public class Speech
     {
-        public void SpeakAsync(string text, bool wait = false)
+        private void SpeakAsync(string text, bool wait = false)
         {
             ExecuteCommand(
                 $@"Add-Type -AssemblyName System.speech; 
