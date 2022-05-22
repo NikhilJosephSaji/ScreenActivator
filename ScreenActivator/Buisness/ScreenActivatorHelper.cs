@@ -11,6 +11,9 @@ namespace ScreenActivator.Buisness
     public class ScreenActivatorHelper
     {
         private MainWindow _win;
+        private bool speakerEvent;
+        private bool micEvent;
+
         public ScreenActivatorHelper(MainWindow win)
         {
             _win = win;
@@ -21,11 +24,14 @@ namespace ScreenActivator.Buisness
             {
                 _win.MuteMicrophone.Background = Brushes.SlateBlue;
                 _win.MuteMicrophone.Click -= new RoutedEventHandler(_win.MuteMicrophone_Click);
+                micEvent = false;
             }
             else
             {
                 _win.MuteMicrophone.Background = Brushes.LightBlue;
-                _win.MuteMicrophone.Click += new RoutedEventHandler(_win.MuteMicrophone_Click);
+                if (!micEvent)
+                    _win.MuteMicrophone.Click += new RoutedEventHandler(_win.MuteMicrophone_Click);
+                micEvent = true;
             }
         }
 
@@ -35,11 +41,14 @@ namespace ScreenActivator.Buisness
             {
                 _win.SpeakerBtn.Background = Brushes.SlateBlue;
                 _win.SpeakerBtn.Click -= new RoutedEventHandler(_win.SpeakerBtn_Click);
+                speakerEvent = false;
             }
             else
             {
                 _win.SpeakerBtn.Background = Brushes.LightBlue;
-                _win.SpeakerBtn.Click += new RoutedEventHandler(_win.SpeakerBtn_Click);
+                if (!speakerEvent)
+                    _win.SpeakerBtn.Click += new RoutedEventHandler(_win.SpeakerBtn_Click);
+                speakerEvent = true;
             }
         }
 

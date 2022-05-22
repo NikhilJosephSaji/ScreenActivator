@@ -79,6 +79,7 @@ namespace ScreenActivator
         {
             help = new WindowInteropHelper(this);
             source = HwndSource.FromHwnd(help.Handle);
+            helper = new ScreenActivatorHelper(this);
             GetXml();
             ApplySettings();
             KeepMonitorActive();
@@ -100,8 +101,7 @@ namespace ScreenActivator
         }
 
         public void ApplySettings()
-        {
-            helper = new ScreenActivatorHelper(this);
+        {            
             if (scActG.DisableMicroPhone)
                 helper.DisableEnableMicButton(scActG.DisableMicroPhone);
             else
