@@ -143,13 +143,13 @@ namespace ScreenActivator
         public void GetXml()
         {
             XmlHelper xml = new XmlHelper();
-            scActG.DisableMicroPhone = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableMicroPhone").Value);
-            scActG.DisableSpeaker = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableSpeaker").Value);
-            scActG.EnableSound = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSound").Value);
-            scActG.EnableMinimize = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableMinimize").Value);
-            scActG.EnableScreenDrag = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableScreenDrag").Value);
-            scActG.EnableSpeech = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSpeech").Value);
-            scActG.EnableLog = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableLog").Value);
+            scActG.DisableMicroPhone = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value);
+            scActG.DisableSpeaker = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value);
+            scActG.EnableSound = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value);
+            scActG.EnableMinimize = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableMinimize")).Value);
+            scActG.EnableScreenDrag = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
+            scActG.EnableSpeech = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value);
+            scActG.EnableLog = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value);
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Xml Data Loaded");
         }
 

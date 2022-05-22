@@ -1,5 +1,6 @@
 ﻿using Logger;
 using ScreenActivator.Buisness;
+using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -57,14 +58,14 @@ namespace ScreenActivator
             _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "AdminSCreen Save Button Clicked");
             _win.Sound?.ClickSound();
             _win.Speech?.Speak("Save Button Clicked");
-            xml.Xml.Element("DisableMicroPhone").Value = DisableMicroPhone.IsChecked.ToString();
-            xml.Xml.Element("DisableSpeaker").Value = DisableSpeaker.IsChecked.ToString();
-            xml.Xml.Element("EnableSound").Value = EnableSound.IsChecked.ToString();
-            xml.Xml.Element("EnableMinimize").Value = EnableMinimize.IsChecked.ToString();
-            xml.Xml.Element("EnableScreenDrag").Value = EnableScreenDrag.IsChecked.ToString();
-            xml.Xml.Element("EnableSpeech").Value = EnableSpeech.IsChecked.ToString();
-            xml.Xml.Element("EnableLog").Value = EnableLog.IsChecked.ToString();
-            _drag_Value = new XmlHelper().Xml.Element("EnableScreenDrag").Value.Contains("False") ? false : true;
+            xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value = SetValuetoXml(DisableMicroPhone.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value = SetValuetoXml(DisableSpeaker.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value = SetValuetoXml(EnableSound.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("EnableMinimize")).Value = SetValuetoXml(EnableMinimize.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value = SetValuetoXml(EnableScreenDrag.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value = SetValuetoXml(EnableSpeech.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value = SetValuetoXml(EnableLog.IsChecked.ToString());
+            _drag_Value = xml.XmlStringToBool(new XmlHelper().Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
             if (xml.SaveXml() == 1)
                 Msg.CustomMessageBox.Show("Settings Saved Sucessfully !");            
             _win.GetXml();
@@ -88,13 +89,13 @@ namespace ScreenActivator
         private void GetXmlData()
         {
             xml = new XmlHelper();
-            DisableMicroPhone.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableMicroPhone").Value);
-            DisableSpeaker.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("DisableSpeaker").Value);
-            EnableSound.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSound").Value);
-            EnableMinimize.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableMinimize").Value);
-            EnableScreenDrag.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableScreenDrag").Value);
-            EnableSpeech.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableSpeech").Value);
-            EnableLog.IsChecked = xml.ConvertXmlStringToBool(xml.Xml.Element("EnableLog").Value);
+            DisableMicroPhone.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value);
+            DisableSpeaker.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value);
+            EnableSound.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value);
+            EnableMinimize.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableMinimize")).Value);
+            EnableScreenDrag.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
+            EnableSpeech.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value);
+            EnableLog.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value);
         }
 
         private void EnableSoundAndSpeech_Click(object sender, RoutedEventArgs e)
@@ -113,6 +114,13 @@ namespace ScreenActivator
                         EnableSound.IsChecked = false;
                 }
             }
+        }
+
+        private string SetValuetoXml(string str)
+        {
+            Random _rdm = new Random();            
+            var val = Guid.NewGuid().ToString() + "-"+ _rdm.Next(0000, 9999) + str;
+            return Encryption.Encrypt(val);
         }
     }
 }
