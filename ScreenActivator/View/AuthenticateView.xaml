@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ScreenActivator" WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:ScreenActivator" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" WindowStyle="None" Width="360" Height="190">
     <Window.Resources>
         <Style x:Key="PasswordBox" TargetType="{x:Type PasswordBox}">
@@ -70,11 +71,11 @@
     <Grid x:Name="ValidatePopUp" Width="350" Height="190">
         <StackPanel Background="LightGoldenrodYellow">
             <StackPanel>
-                <WrapPanel>
+                <WrapPanel Margin="0,10,0,0">
                     <StackPanel Margin="110,0,0,0" HorizontalAlignment="Center">
                         <Label FontSize="17" Foreground="Brown"  FontWeight="Bold" Content="Authentication "/>
                     </StackPanel>
-                    <StackPanel Margin="68,-5,0,0">
+                    <StackPanel Margin="74,-10,0,0">
                         <Button HorizontalContentAlignment="Center" x:Name="ValidateCloseButton" Height="25" Margin="5,5,0,0" Width="25" Style="{StaticResource closebtn}" Click="ValidateCloseButton_Click" >
                             <Image Margin="3" Stretch="Uniform" Source="../Icons/close-icon-png-904785.png"/>
                         </Button>
