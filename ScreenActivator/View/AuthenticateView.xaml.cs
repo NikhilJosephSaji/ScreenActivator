@@ -25,7 +25,7 @@ namespace ScreenActivator
             if (ValidateUsserName.Text == null || ValidateUsserName.Text == string.Empty)
             {
                 ErrorMsg.Visibility = Visibility.Visible;
-                ErrorMsg.Content = "Please Enter UsserName";
+                ErrorMsg.Content = "Please Enter UserName";
                 _win.Speech?.Speak(ErrorMsg.Content.ToString());
                 return false;
             }
