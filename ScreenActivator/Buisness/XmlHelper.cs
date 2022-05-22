@@ -18,9 +18,9 @@ namespace ScreenActivator.Buisness
             xml = XElement.Load(path + "\\Buisness\\ScreenActData.xml");
         }
 
-        public bool ConvertXmlStringToBool(string str)
+        public bool XmlStringToBool(string str)
         {
-            return Convert.ToBoolean(str);
+            return Convert.ToBoolean(Split(Encryption.Decrypt(str)));
         }
 
         public int SaveXml()
@@ -36,6 +36,17 @@ namespace ScreenActivator.Buisness
             {
                 return 0;
             }
+        }
+
+        private string Split(string str)
+        {
+            int index = str.LastIndexOf("-");
+            str = str.Substring(index);
+            if (str.Contains("False"))
+                str = "False";
+            else
+                str = "True";
+            return str;
         }
     }
 }
