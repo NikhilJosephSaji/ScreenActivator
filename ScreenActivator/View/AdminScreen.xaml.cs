@@ -2,6 +2,8 @@
 using ScreenActivator.Buisness;
 using System;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
@@ -53,7 +55,7 @@ namespace ScreenActivator
             }
         }
 
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        private async void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "AdminSCreen Save Button Clicked");
             _win.Sound?.ClickSound();
@@ -67,14 +69,23 @@ namespace ScreenActivator
             xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value = SetValuetoXml(EnableLog.IsChecked.ToString());
             _drag_Value = xml.XmlStringToBool(new XmlHelper().Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
             if (xml.SaveXml() == 1)
-                Msg.CustomMessageBox.Show("Settings Saved Sucessfully !");            
+            {
+                var msg = "Settings Saved Sucessfully !";
+                if (_win.Speech != null)
+                    await Task.Run(() => Thread.Sleep(2000));
+                _win.Speech?.Speak(msg);
+                _win.Sound?.ExclamationSound();
+                Msg.CustomMessageBox.Show(msg);
+            }
             _win.GetXml();
             _win.ApplySettings();
             if (!_drag_Value)
                 if (EnableScreenDrag.IsChecked.Value)
                 {
                     _win.Sound?.ExclamationSound();
-                    if (Msg.CustomMessageBox.Show("Restart is Required as the Screen Drag is Enabled. Do you want to Restart.", "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    var msg = "Restart is Required as the Screen Drag is Enabled. Do you want to Restart.";
+                    _win.Speech?.Speak(msg);
+                    if (Msg.CustomMessageBox.Show(msg, "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                         new ScreenActivatorHelper(_win).RestartMyApplication();
                 }
         }
@@ -118,8 +129,8 @@ namespace ScreenActivator
 
         private string SetValuetoXml(string str)
         {
-            Random _rdm = new Random();            
-            var val = Guid.NewGuid().ToString() + "-"+ _rdm.Next(0000, 9999) + str;
+            Random _rdm = new Random();
+            var val = Guid.NewGuid().ToString() + "-" + _rdm.Next(0000, 9999) + str;
             return Encryption.Encrypt(val);
         }
     }

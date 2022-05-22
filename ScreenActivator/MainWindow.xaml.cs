@@ -408,7 +408,10 @@ namespace ScreenActivator
                     new AuthenticateView(this).Show();
                 else
                 {
-                    Msg.CustomMessageBox.Show("When Mouse or KeyBoard is Activated you can't get into Admin Screen");
+                    Sound?.ExclamationSound();
+                    var msg = "When Mouse or KeyBoard is Activated you can't get into Admin Screen";
+                    Speech?.Speak(msg);
+                    Msg.CustomMessageBox.Show(msg);
                     adminScreenCount = 0;
                 }
         }
