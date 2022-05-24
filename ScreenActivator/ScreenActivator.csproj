@@ -30,6 +30,7 @@
 	  <None Remove="Icons\Mini.jpg" />
 	  <None Remove="Icons\minimize-icon-23794.png" />
 	  <None Remove="Icons\mouse+icon+computer+mouse+line+icon+mouse+mouse+icon+mouse-1320073118605145636_48.png" />
+	  <None Remove="Icons\Record.png" />
 	  <None Remove="Icons\screen+icon-1320186918466137152_48.png" />
 	  <None Remove="Icons\Screen.png" />
 	  <None Remove="Icons\speaker-icon-342966.png" />
@@ -42,10 +43,16 @@
 	<ItemGroup>
 		<PackageReference Include="NAudio" Version="2.0.1" />
 		<PackageReference Include="Prism.Core" Version="8.1.97" />
+		<PackageReference Include="VisioForge.DotNet.Core.Redist.MP4.x64" Version="15.0.2" />
+		<PackageReference Include="VisioForge.DotNet.Core.Redist.VideoCapture.x64" Version="15.0.2" />
+		<PackageReference Include="VisioForge.DotNet.VideoCapture.TRIAL" Version="15.0.2" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="Buisness\ScreenActData.xml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Icons\Record.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Restarter.exe">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
