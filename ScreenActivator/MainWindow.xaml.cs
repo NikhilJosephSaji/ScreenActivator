@@ -11,6 +11,10 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
+using VisioForge.Controls.VideoCapture;
+using VisioForge.Types;
+using VisioForge.Types.Output;
+using VisioForge.Types.VideoCapture;
 using Msg = CustomMessageBox;
 
 namespace ScreenActivator
@@ -39,6 +43,8 @@ namespace ScreenActivator
         private ScreenActivatorHelper helper;
         private WindowInteropHelper help;
         private HwndSource source;
+        private VideoCaptureCore core;
+        private bool _recordCanStart = true;
 
         #endregion
 
@@ -55,6 +61,7 @@ namespace ScreenActivator
             cy = HEIGHT / 2;
             vm = new ViewModel(this);
             Initialize();
+            VideoCaptureInitalize();
         }
 
         private void Initialize()
@@ -101,7 +108,7 @@ namespace ScreenActivator
         }
 
         public void ApplySettings()
-        {            
+        {
             if (scActG.DisableMicroPhone)
                 helper.DisableEnableMicButton(scActG.DisableMicroPhone);
             else
@@ -201,6 +208,22 @@ namespace ScreenActivator
                     MuteMicrophone.Background = Brushes.White;
                 }
             }
+        }
+
+        private void VideoCaptureInitalize()
+        {
+            core = new VideoCaptureCore();
+            core.Screen_Capture_Source = new VisioForge.Types.VideoCapture.ScreenCaptureSourceSettings() { FullScreen = true };
+            core.Audio_PlayAudio = core.Audio_RecordAudio = true;
+            core.Output_Format = new MP4Output();
+            core.Output_Filename = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "\\ScreenRecord.mp4";
+            core.Mode = VideoCaptureMode.ScreenCapture;
+            core.OnError += Core_OnError;
+        }
+
+        private void Core_OnError(object sender, VisioForge.Types.Events.ErrorsEventArgs e)
+        {
+            Msg.CustomMessageBox.Show(e.Message, "Warning", System.Windows.Forms.MessageBoxButtons.OK);
         }
 
         public void KeepMonitorActive()
@@ -414,6 +437,34 @@ namespace ScreenActivator
                     Msg.CustomMessageBox.Show(msg);
                     adminScreenCount = 0;
                 }
+        }
+
+
+        private async void Record_Click(object sender, RoutedEventArgs e)
+        {
+            Sound?.ClickSound();
+            Speech?.Speak("Screen Record Button Clicked");
+            Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
+            if (_recordCanStart)
+            {
+                Thread.Sleep(2000);                
+                _recordCanStart = false;
+                await core.StartAsync();
+                Speech?.Speak("Recording Started.");
+                var brush = new SolidColorBrush(Color.FromArgb(255, (240), (58), (58)));
+                Record.Background = brush;
+            }
+            else
+            {
+                await core.StopAsync();
+                _recordCanStart = true;
+                Sound?.ExclamationSound();
+                Thread.Sleep(2000);
+                var msg = "Recording Saved Sucessfully !";
+                Speech?.Speak(msg);
+                Msg.CustomMessageBox.Show(msg);
+                Record.Background = Brushes.White;
+            }
         }
 
         #endregion
