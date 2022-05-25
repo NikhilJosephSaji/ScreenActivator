@@ -61,7 +61,6 @@ namespace ScreenActivator
             cy = HEIGHT / 2;
             vm = new ViewModel(this);
             Initialize();
-            VideoCaptureInitalize();
         }
 
         private void Initialize()
@@ -89,6 +88,7 @@ namespace ScreenActivator
             helper = new ScreenActivatorHelper(this);
             GetXml();
             ApplySettings();
+            VideoCaptureInitalize();
             KeepMonitorActive();
             Screen.Background = Brushes.LightBlue;
             screenRunning = true;
@@ -151,6 +151,7 @@ namespace ScreenActivator
             ScreenGlobal.EnableSpeech = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value);
             ScreenGlobal.EnableLog = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value);
             ScreenGlobal.EnableScreenRecord = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenRecord")).Value);
+            ScreenGlobal.ScreenRcordPath = Encryption.Decrypt(xml.Xml.Element(Encryption.StringToHex("ScreenRecordPath")).Value);
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Xml Data Loaded");
         }
 
@@ -210,7 +211,7 @@ namespace ScreenActivator
             core.Screen_Capture_Source = new VisioForge.Types.VideoCapture.ScreenCaptureSourceSettings() { FullScreen = true };
             core.Audio_PlayAudio = core.Audio_RecordAudio = true;
             core.Output_Format = new MP4Output();
-            core.Output_Filename = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos) + "\\ScreenRecord.mp4";
+            core.Output_Filename = ScreenGlobal.ScreenRcordPath == null ? "" : ScreenGlobal.ScreenRcordPath + "\\ScreenRecord.mp4";
             core.Mode = VideoCaptureMode.ScreenCapture;
             core.OnError += Core_OnError;
         }
@@ -284,7 +285,6 @@ namespace ScreenActivator
         {
             SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS); //Restore Previous Settings, ie, Go To Sleep Again
         }
-
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -433,7 +433,6 @@ namespace ScreenActivator
                 }
         }
 
-
         private async void Record_Click(object sender, RoutedEventArgs e)
         {
             Sound?.ClickSound();
@@ -457,6 +456,8 @@ namespace ScreenActivator
                 var msg = "Recording Saved Sucessfully !";
                 Speech?.Speak(msg);
                 Msg.CustomMessageBox.Show(msg);
+                string argument = "/select, \"" + ScreenGlobal.ScreenRcordPath + "\\ScreenRecord.mp4" + "\"";
+                System.Diagnostics.Process.Start("explorer.exe", argument);
                 Record.Background = Brushes.White;
             }
         }
