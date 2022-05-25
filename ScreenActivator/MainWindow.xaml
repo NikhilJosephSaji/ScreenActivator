@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScreenActivator" 
+        xmlns:load="clr-namespace:ScreenActivator.View"
         Closed="Window_Closed" 
         WindowStartupLocation="CenterScreen" 
         Closing="OnClose" ResizeMode="CanMinimize"
@@ -87,59 +88,67 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Border CornerRadius="5" BorderThickness="1" Margin="3" BorderBrush="Black" >
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="85"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Grid.Column="0">
-                <Label HorizontalAlignment="Center" FontSize="22">Screen Activator</Label>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
-                <Button x:Name="minibtn" Click="Button_Click_1" Margin="7,2,0,0" Width="40"  Style="{StaticResource minibtn}" Cursor="Hand">
-                    <Image Source="Icons/minimize-icon-23794.png" Stretch="Uniform" Margin="7" />
-                </Button>
-                <Button x:Name="closebtn" Margin="-5,2,0,0" Width="40" Click="Button_Click" Style="{StaticResource closebtn}" Cursor="Hand">
-                    <Image Source="Icons/close-icon-png-904785.png" Stretch="Uniform" Margin="7"/>
-                </Button>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                    <Button x:Name="MOuse" Background="White"  Margin="10,1,10,0" Width="30" Height="30" Click="MOuse_Click" Cursor="Hand" ToolTip="Control Mouse Automatically. (Ctrl+M)">
-                        <Image Source="/Icons/mouse+icon+computer+mouse+line+icon+mouse+mouse+icon+mouse-1320073118605145636_48.png" Stretch="Fill" />
+    <Grid>
+        <Border CornerRadius="5" BorderThickness="1" Margin="3" BorderBrush="Black" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="85"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Label HorizontalAlignment="Center" FontSize="22">Screen Activator</Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
+                    <Button x:Name="minibtn" Click="Button_Click_1" Margin="7,2,0,0" Width="40"  Style="{StaticResource minibtn}" Cursor="Hand">
+                        <Image Source="Icons/minimize-icon-23794.png" Stretch="Uniform" Margin="7" />
                     </Button>
-                    <Button Cursor="Hand" x:Name="KeyBoard" Background="White" Margin="0,1,0,0" Width="30" Height="30" Click="KeyBoard_Click" ToolTip="Control KeyBoard Automatically. (Ctrl+K)">
-                        <Image Source="/Icons/keyboard-131964784884068302_48.png" Stretch="Fill" />
-                    </Button>
-                    <Button Cursor="Hand" x:Name="Screen" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="Screen_Click">
-                        <Image Source="/Icons/screen+icon-1320186918466137152_48.png" Stretch="Fill" Margin="2,5,2,0" />
-                    </Button>
-                    <Button Cursor="Hand" x:Name="SpeakerBtn" Background="White" Margin="10,1,0,0" Width="30" Height="30" ToolTip="Turn ON or OFF Speaker. (Alt+S)">
-                        <Image Source="/Icons/speaker-icon-342966.png" Margin="1,1,1,1"  Stretch="Fill"/>
-                    </Button>
-                    <Button Cursor="Hand" x:Name="MuteMicrophone" Background="White" Margin="10,1,0,0" Width="30" Height="30" ToolTip="Turn ON or OFF Mic. (Alt+M)" >
-                        <Image Source="Icons/mic+microphone+record+sound+speak+voice+icon-1320161596291231811_48.png" Margin="1,3,1,0"  Stretch="Fill"/>
-                    </Button>
-                    <Button Visibility="Collapsed" Cursor="Hand" x:Name="Record" Background="White" Margin="10,1,0,0" Width="35" Height="30" ToolTip="Screen Record" Click="Record_Click">
-                        <Image Source="Icons/record.png" Margin="1,0,1,0"  Stretch="Uniform"/>
+                    <Button x:Name="closebtn" Margin="-5,2,0,0" Width="40" Click="Button_Click" Style="{StaticResource closebtn}" Cursor="Hand">
+                        <Image Source="Icons/close-icon-png-904785.png" Stretch="Uniform" Margin="7"/>
                     </Button>
                 </StackPanel>
-                <StackPanel x:Name="SpecialFunctionPanel" Visibility="Collapsed">
-                    <Button x:Name="SpecialFunction"  Margin="0,10,0,0" Width="40" Height="40" Click="SpecialFunction_Click" Style="{StaticResource special}">
-                        <Image Source="/Icons/Danger_Icon_PNG_itweae.png" Stretch="Uniform" Margin="2"/>
-                    </Button>
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button x:Name="MOuse" Background="White"  Margin="10,1,10,0" Width="30" Height="30" Click="MOuse_Click" Cursor="Hand" ToolTip="Control Mouse Automatically. (Ctrl+M)">
+                            <Image Source="/Icons/mouse+icon+computer+mouse+line+icon+mouse+mouse+icon+mouse-1320073118605145636_48.png" Stretch="Fill" />
+                        </Button>
+                        <Button Cursor="Hand" x:Name="KeyBoard" Background="White" Margin="0,1,0,0" Width="30" Height="30" Click="KeyBoard_Click" ToolTip="Control KeyBoard Automatically. (Ctrl+K)">
+                            <Image Source="/Icons/keyboard-131964784884068302_48.png" Stretch="Fill" />
+                        </Button>
+                        <Button Cursor="Hand" x:Name="Screen" Background="White" Margin="10,1,0,0" Width="30" Height="30" Click="Screen_Click">
+                            <Image Source="/Icons/screen+icon-1320186918466137152_48.png" Stretch="Fill" Margin="2,5,2,0" />
+                        </Button>
+                        <Button Cursor="Hand" x:Name="SpeakerBtn" Background="White" Margin="10,1,0,0" Width="30" Height="30" ToolTip="Turn ON or OFF Speaker. (Alt+S)">
+                            <Image Source="/Icons/speaker-icon-342966.png" Margin="1,1,1,1"  Stretch="Fill"/>
+                        </Button>
+                        <Button Cursor="Hand" x:Name="MuteMicrophone" Background="White" Margin="10,1,0,0" Width="30" Height="30" ToolTip="Turn ON or OFF Mic. (Alt+M)" >
+                            <Image Source="Icons/mic+microphone+record+sound+speak+voice+icon-1320161596291231811_48.png" Margin="1,3,1,0"  Stretch="Fill"/>
+                        </Button>
+                        <Button Visibility="Collapsed" Cursor="Hand" x:Name="Record" Background="White" Margin="10,1,0,0" Width="35" Height="30" ToolTip="Screen Record" Click="Record_Click">
+                            <Image Source="Icons/record.png" Margin="1,0,1,0"  Stretch="Uniform"/>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel x:Name="SpecialFunctionPanel" Visibility="Collapsed">
+                        <Button x:Name="SpecialFunction"  Margin="0,10,0,0" Width="40" Height="40" Click="SpecialFunction_Click" Style="{StaticResource special}">
+                            <Image Source="/Icons/Danger_Icon_PNG_itweae.png" Stretch="Uniform" Margin="2"/>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
-                <Label Margin="5,0,0,0" >
-                    <Hyperlink x:Name="VersionHyperlink" Click="VersionHyperlink_Click" TextDecorations="None" Foreground="Black" Cursor="Arrow">VER : 1.0.4.1</Hyperlink>
-                </Label>
+                <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Label Margin="5,0,0,0" >
+                        <Hyperlink x:Name="VersionHyperlink" Click="VersionHyperlink_Click" TextDecorations="None" Foreground="Black" Cursor="Arrow">VER : 1.0.4.1</Hyperlink>
+                    </Label>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Grid Background="SlateGray" Opacity=".7" x:Name="loader" Visibility="Collapsed">
+            <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <load:LoadingControl Diameter="24" Color1="White" Color2="Red"/>
+                <Label Content="Loading..." VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="12" />
             </StackPanel>
         </Grid>
-    </Border>
+    </Grid>
 </Window>
