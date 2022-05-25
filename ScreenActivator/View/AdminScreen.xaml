@@ -274,7 +274,7 @@
                     </WrapPanel>
                     <WrapPanel Margin="0,2,0,0">
                         <Border Margin="5" Padding="5,0,5,2" BorderThickness="1" BorderBrush="Red" Background="White" CornerRadius="10">
-                            <TextBlock x:Name="UrlBox" FontSize="10" Foreground="Black"  Margin="0,5,0,0" Width="200" TextWrapping="Wrap" HorizontalAlignment="Left" Height="45" Background="White"/>
+                            <TextBlock x:Name="UrlBox" FontSize="10" Foreground="Black"  Margin="0,5,0,0" Width="200" TextWrapping="Wrap" HorizontalAlignment="Left" Height="45" Background="White" IsHitTestVisible="False"/>
                         </Border>
                         <Border Margin="0,0,0,0" BorderThickness="1" BorderBrush="White" CornerRadius="5" Height="20" Width="40">
                             <Border.Background>
