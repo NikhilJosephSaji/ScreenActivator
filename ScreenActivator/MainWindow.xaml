@@ -146,8 +146,8 @@
         </Border>
         <Grid Background="SlateGray" Opacity=".7" x:Name="loader" Visibility="Collapsed">
             <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <load:LoadingControl Diameter="24" Color1="White" Color2="Red"/>
-                <Label Content="Loading..." VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="12" />
+                <load:LoadingControl Diameter="35" Color1="White" Color2="Red"/>
+                <Label x:Name="loadingMsg" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" FontSize="16" />
             </StackPanel>
         </Grid>
     </Grid>
