@@ -35,6 +35,44 @@ namespace ScreenActivator.Buisness
             }
         }
 
+        public void ApplyScreenSettings()
+        {
+            if (_win.ScreenGlobal.EnableScreenRecord)
+            {
+                _win.Width = 340;
+                _win.Record.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _win.Width = 295;
+                _win.Record.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public void ApplyLogSettings()
+        {
+            if (_win.ScreenGlobal.EnableLog)
+                _win.Logger = new Logging();
+            else
+                _win.Logger = null;
+        }
+
+        public void ApplySpeechSettings()
+        {
+            if (_win.ScreenGlobal.EnableSpeech)
+                _win.Speech = new Speech();
+            else
+                _win.Speech = null;
+        }
+
+        public void ApplySoundSettings()
+        {
+            if (_win.ScreenGlobal.EnableSound)
+                _win.Sound = new Sound();
+            else
+                _win.Sound = null;
+        }
+
         public void DisableEnableSpeaker(bool isNeeded)
         {
             if (isNeeded)
