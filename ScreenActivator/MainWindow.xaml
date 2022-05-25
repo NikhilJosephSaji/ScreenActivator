@@ -137,7 +137,7 @@
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
                 <Label Margin="5,0,0,0" >
-                    <Hyperlink x:Name="VersionHyperlink" Click="VersionHyperlink_Click" TextDecorations="None" Foreground="Black" Cursor="Arrow">VER : 1.0.3.2</Hyperlink>
+                    <Hyperlink x:Name="VersionHyperlink" Click="VersionHyperlink_Click" TextDecorations="None" Foreground="Black" Cursor="Arrow">VER : 1.0.4.1</Hyperlink>
                 </Label>
             </StackPanel>
         </Grid>
