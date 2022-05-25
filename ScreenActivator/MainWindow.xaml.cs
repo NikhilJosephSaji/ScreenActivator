@@ -76,24 +76,34 @@ namespace ScreenActivator
             mouseTimer.Tick += Changemousepointer;
             keyPressTimer.Interval = new TimeSpan(0, 0, 10);
             keyPressTimer.Tick += KeyPressTimer_Tick;
+            helper = new ScreenActivatorHelper(this);
             SpecialFunction.Background = (LinearGradientBrush)this.Resources["normal"];
             this.DataContext = vm;
             for (int i = 0; i <= 60; i++)
                 ss[i] = i;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            helper.ShowLoader(true);
+            loadingMsg.Content = "Please Wait...";
+            await Task.Run(() => Thread.Sleep(800));
             help = new WindowInteropHelper(this);
-            source = HwndSource.FromHwnd(help.Handle);
-            helper = new ScreenActivatorHelper(this);
+            source = HwndSource.FromHwnd(help.Handle);           
             GetXml();
             ApplySettings();
+            loadingMsg.Content = "Setting Applied...";
+            await Task.Run(() => Thread.Sleep(800));
             VideoCaptureInitalize();
             KeepMonitorActive();
             Screen.Background = Brushes.LightBlue;
             screenRunning = true;
+            loadingMsg.Content = "Loading...";
+            await Task.Run(() => Thread.Sleep(800));
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "ScreenActivator Loaded");
+            Sound?.ExclamationSound();
+            Speech?.Speak("ScreenActivator Loaded");
+            helper.ShowLoader(false);
         }
 
         private void EnableDisableDrag(bool isNeeded)
