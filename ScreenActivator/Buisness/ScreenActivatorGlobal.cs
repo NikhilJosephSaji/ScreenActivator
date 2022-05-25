@@ -13,5 +13,6 @@ namespace ScreenActivator.Buisness
         public bool EnableScreenDrag;
         public bool EnableSpeech;
         public bool EnableLog;
+        public bool EnableScreenRecord;
     }
 }
