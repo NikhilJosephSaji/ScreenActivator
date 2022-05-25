@@ -39,7 +39,6 @@ namespace ScreenActivator
         private bool screenRunning = false;
         private bool mouseRunning = false;
         private int adminScreenCount = 0;
-        private ScreenActivatorGlobal scActG;
         private ScreenActivatorHelper helper;
         private WindowInteropHelper help;
         private HwndSource source;
@@ -53,6 +52,7 @@ namespace ScreenActivator
         public Sound Sound;
         public Speech Speech;
         public Logging Logger;
+        public ScreenActivatorGlobal ScreenGlobal;
         #endregion
         public MainWindow()
         {
@@ -95,7 +95,7 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "ScreenActivator Loaded");
         }
 
-        public void EnableDisableDrag(bool isNeeded)
+        private void EnableDisableDrag(bool isNeeded)
         {
             if (!isNeeded)
             {
@@ -109,54 +109,48 @@ namespace ScreenActivator
 
         public void ApplySettings()
         {
-            if (scActG.DisableMicroPhone)
-                helper.DisableEnableMicButton(scActG.DisableMicroPhone);
+            if (ScreenGlobal.DisableMicroPhone)
+                helper.DisableEnableMicButton(ScreenGlobal.DisableMicroPhone);
             else
             {
-                helper.DisableEnableMicButton(scActG.DisableMicroPhone);
+                helper.DisableEnableMicButton(ScreenGlobal.DisableMicroPhone);
                 GetSpeakerandMicStatus(false);
             }
 
-            if (scActG.DisableSpeaker)
-                helper.DisableEnableSpeaker(scActG.DisableSpeaker);
+            if (ScreenGlobal.DisableSpeaker)
+                helper.DisableEnableSpeaker(ScreenGlobal.DisableSpeaker);
             else
             {
-                helper.DisableEnableSpeaker(scActG.DisableSpeaker);
+                helper.DisableEnableSpeaker(ScreenGlobal.DisableSpeaker);
                 GetSpeakerandMicStatus(true);
             }
 
-            if (scActG.EnableScreenDrag)
+            if (ScreenGlobal.EnableScreenDrag)
                 EnableDisableDrag(true);
             else
                 EnableDisableDrag(false);
 
-            if (scActG.EnableSound)
-                Sound = new Sound();
-            else
-                Sound = null;
+            helper.ApplySoundSettings();
+            helper.ApplySpeechSettings();
+            helper.ApplyLogSettings();
+            helper.ApplyScreenSettings();
 
-            if (scActG.EnableSpeech)
-                Speech = new Speech();
-            else
-                Speech = null;
-
-            if (scActG.EnableLog)
-                Logger = new Logging();
-            else
-                Logger = null;
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "ScreenActivator Settings Applied");
         }
+
+
 
         public void GetXml()
         {
             XmlHelper xml = new XmlHelper();
-            scActG.DisableMicroPhone = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value);
-            scActG.DisableSpeaker = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value);
-            scActG.EnableSound = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value);
-            scActG.EnableMinimize = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableMinimize")).Value);
-            scActG.EnableScreenDrag = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
-            scActG.EnableSpeech = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value);
-            scActG.EnableLog = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value);
+            ScreenGlobal.DisableMicroPhone = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value);
+            ScreenGlobal.DisableSpeaker = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value);
+            ScreenGlobal.EnableSound = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value);
+            ScreenGlobal.EnableMinimize = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableMinimize")).Value);
+            ScreenGlobal.EnableScreenDrag = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
+            ScreenGlobal.EnableSpeech = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value);
+            ScreenGlobal.EnableLog = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value);
+            ScreenGlobal.EnableScreenRecord = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenRecord")).Value);
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Xml Data Loaded");
         }
 
@@ -318,7 +312,7 @@ namespace ScreenActivator
         {
             if (WindowState == WindowState.Minimized)
             {
-                if (scActG.EnableMinimize)
+                if (ScreenGlobal.EnableMinimize)
                 {
                     Hide();
                     if (m_notifyIcon != null)
@@ -447,7 +441,7 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
-                Thread.Sleep(2000);                
+                Thread.Sleep(2000);
                 _recordCanStart = false;
                 await core.StartAsync();
                 Speech?.Speak("Recording Started.");

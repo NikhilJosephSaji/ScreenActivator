@@ -12,7 +12,7 @@
         WindowStyle="None" Icon="Icons/Screen.png" 
         StateChanged="OnStateChanged" 
         IsVisibleChanged="OnIsVisibleChanged"
-        Title="ScreenActivator" Height="95" Width="340">
+        Title="ScreenActivator" Height="95" Width="295">
     <Window.InputBindings>
         <KeyBinding Command="{Binding HandleSpecialFunction}"  Gesture="Ctrl+Alt+P"/>
         <KeyBinding Command="{Binding HandleMouse}"  Gesture="Ctrl+M"/>
@@ -125,7 +125,7 @@
                     <Button Cursor="Hand" x:Name="MuteMicrophone" Background="White" Margin="10,1,0,0" Width="30" Height="30" ToolTip="Turn ON or OFF Mic. (Alt+M)" >
                         <Image Source="Icons/mic+microphone+record+sound+speak+voice+icon-1320161596291231811_48.png" Margin="1,3,1,0"  Stretch="Fill"/>
                     </Button>
-                    <Button Cursor="Hand" x:Name="Record" Background="White" Margin="10,1,0,0" Width="35" Height="30" ToolTip="Screen Record" Click="Record_Click">
+                    <Button Visibility="Collapsed" Cursor="Hand" x:Name="Record" Background="White" Margin="10,1,0,0" Width="35" Height="30" ToolTip="Screen Record" Click="Record_Click">
                         <Image Source="Icons/record.png" Margin="1,0,1,0"  Stretch="Uniform"/>
                     </Button>
                 </StackPanel>
