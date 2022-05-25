@@ -440,7 +440,8 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
-                filename = helper.GenerateFileName(ScreenGlobal.ScreenRcordPath + "\\ScreenRecord");
+                var file = ScreenGlobal.ScreenRcordPath.EndsWith("\\") ? "ScreenRecord" : "\\ScreenRecord";
+                filename = helper.GenerateFileName(ScreenGlobal.ScreenRcordPath + file);
                 core.Output_Filename = filename;
                 Thread.Sleep(2000);
                 _recordCanStart = false;
