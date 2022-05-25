@@ -209,8 +209,11 @@ namespace ScreenActivator
         private void VideoCaptureInitalize()
         {
             core = new VideoCaptureCore();
+            core.Audio_CaptureDevice = new AudioCaptureSource("VisioForge What You Hear Source");
+            core.Audio_CaptureDevice.Format_UseBest = true;
             core.Screen_Capture_Source = new VisioForge.Types.VideoCapture.ScreenCaptureSourceSettings() { FullScreen = true };
-            core.Audio_PlayAudio = core.Audio_RecordAudio = true;
+            core.Audio_PlayAudio = false;
+            core.Audio_RecordAudio = true;
             core.Output_Format = new MP4Output();
             core.Mode = VideoCaptureMode.ScreenCapture;
             core.OnError += Core_OnError;
@@ -459,6 +462,7 @@ namespace ScreenActivator
                 var msg = "Recording Saved Sucessfully !";
                 Speech?.Speak(msg);
                 Msg.CustomMessageBox.Show(msg);
+                Speech?.Speak("Opening File contain location");
                 string argument = "/select, \"" + filename + "\"";
                 System.Diagnostics.Process.Start("explorer.exe", argument);
                 Record.Background = Brushes.White;
