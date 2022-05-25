@@ -117,5 +117,18 @@ namespace ScreenActivator.Buisness
             Process.Start(path + "\\Restarter.exe");
             Environment.Exit(0);
         }
+
+        public string GenerateFileName(string filename)
+        {
+            int i = 0;
+            string fileExtension = ".mp4";
+            string availableFileName = filename;
+            while (System.IO.File.Exists(availableFileName + fileExtension))
+            {
+                availableFileName = filename + "(" + i + ")";
+                i++;
+            }
+            return availableFileName + fileExtension;
+        }
     }
 }

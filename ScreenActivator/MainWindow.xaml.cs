@@ -44,6 +44,7 @@ namespace ScreenActivator
         private HwndSource source;
         private VideoCaptureCore core;
         private bool _recordCanStart = true;
+        private string filename;
 
         #endregion
 
@@ -211,7 +212,6 @@ namespace ScreenActivator
             core.Screen_Capture_Source = new VisioForge.Types.VideoCapture.ScreenCaptureSourceSettings() { FullScreen = true };
             core.Audio_PlayAudio = core.Audio_RecordAudio = true;
             core.Output_Format = new MP4Output();
-            core.Output_Filename = ScreenGlobal.ScreenRcordPath == null ? "" : ScreenGlobal.ScreenRcordPath + "\\ScreenRecord.mp4";
             core.Mode = VideoCaptureMode.ScreenCapture;
             core.OnError += Core_OnError;
         }
@@ -440,6 +440,8 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
+                filename = helper.GenerateFileName(ScreenGlobal.ScreenRcordPath + "\\ScreenRecord");
+                core.Output_Filename = filename;
                 Thread.Sleep(2000);
                 _recordCanStart = false;
                 await core.StartAsync();
@@ -456,7 +458,7 @@ namespace ScreenActivator
                 var msg = "Recording Saved Sucessfully !";
                 Speech?.Speak(msg);
                 Msg.CustomMessageBox.Show(msg);
-                string argument = "/select, \"" + ScreenGlobal.ScreenRcordPath + "\\ScreenRecord.mp4" + "\"";
+                string argument = "/select, \"" + filename + "\"";
                 System.Diagnostics.Process.Start("explorer.exe", argument);
                 Record.Background = Brushes.White;
             }
