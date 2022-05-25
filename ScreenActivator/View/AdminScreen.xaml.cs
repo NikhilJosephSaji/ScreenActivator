@@ -2,6 +2,7 @@
 using ScreenActivator.Buisness;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -60,6 +61,8 @@ namespace ScreenActivator
             _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "AdminSCreen Save Button Clicked");
             _win.Sound?.ClickSound();
             _win.Speech?.Speak("Save Button Clicked");
+            xml.Xml.Element(Encryption.StringToHex("EnableScreenRecord")).Value = SetValuetoXml(EnableScreenRecord.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("ScreenRecordPath")).Value = Encryption.Encrypt(UrlBox.Text.Trim());
             xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value = SetValuetoXml(DisableMicroPhone.IsChecked.ToString());
             xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value = SetValuetoXml(DisableSpeaker.IsChecked.ToString());
             xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value = SetValuetoXml(EnableSound.IsChecked.ToString());
@@ -100,6 +103,8 @@ namespace ScreenActivator
         private void GetXmlData()
         {
             xml = new XmlHelper();
+            UrlBox.Text = Encryption.Decrypt(xml.Xml.Element(Encryption.StringToHex("ScreenRecordPath")).Value);
+            EnableScreenRecord.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenRecord")).Value);
             DisableMicroPhone.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value);
             DisableSpeaker.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value);
             EnableSound.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableSound")).Value);
@@ -132,6 +137,21 @@ namespace ScreenActivator
             Random _rdm = new Random();
             var val = Guid.NewGuid().ToString() + "-" + _rdm.Next(0000, 9999) + str;
             return Encryption.Encrypt(val);
+        }
+
+        private void Choose_Click(object sender, RoutedEventArgs e)
+        {
+            _win.Logger?.Log.LogInfo(LogLevel.SummaryInfo, "AdminSCreen Choose Button Clicked");
+            _win.Sound?.ClickSound();
+            _win.Speech?.Speak("Choose Button Clicked");
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    UrlBox.Text = fbd.SelectedPath;
+                }
+            }
         }
     }
 }
