@@ -130,5 +130,13 @@ namespace ScreenActivator.Buisness
             }
             return availableFileName + fileExtension;
         }
+
+        public void ShowLoader(bool show)
+        {
+            if (show)
+                _win.loader.Visibility = Visibility.Visible;
+            else
+                _win.loader.Visibility = Visibility.Collapsed;
+        }
     }
 }
