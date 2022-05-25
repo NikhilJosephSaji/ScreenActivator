@@ -14,5 +14,6 @@ namespace ScreenActivator.Buisness
         public bool EnableSpeech;
         public bool EnableLog;
         public bool EnableScreenRecord;
+        public string ScreenRcordPath;
     }
 }
