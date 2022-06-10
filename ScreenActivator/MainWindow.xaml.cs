@@ -232,7 +232,7 @@ namespace ScreenActivator
 
         private void SetRecordArea(VideoCaptureCore core)
         {
-            if (helper.Width != 0 && helper.Height != 0 && helper.Top != 0 && helper.Left != 0)
+            if (helper.Width != 0 && helper.Height != 0 && helper.Top != 0 && helper.Left != 0 && ScreenGlobal.EnableRECSizeable)
             {
                 core.Screen_Capture_Source.FullScreen = false;
                 int height = (int)SystemParameters.FullPrimaryScreenHeight;
