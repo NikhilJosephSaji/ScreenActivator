@@ -66,11 +66,20 @@ namespace ScreenActivator
         private void KeyPressTimer_Tick(object sender, EventArgs e)
         {
             Process pro = new Process();
-            pro.StartInfo.FileName = @"C:\Program Files\Internet Explorer\iexplore.exe";
-            pro.Start();
+            try
+            {
+                pro.StartInfo.FileName = @"C:\Program Files\Internet Explorer\iexplore.exe";
+                pro.Start();
+            }
+            catch
+            {
+                pro.StartInfo.FileName = @"C:\Program Files(x86)\Internet Explorer\iexplore.exe";
+                pro.Start();
+            }
+
             new NotePad();
             Thread.Sleep(3000);
-            pro.Kill();
+            try { pro.Kill(); } catch { }
         }
 
         public void ProcessHandleStop(bool start)
