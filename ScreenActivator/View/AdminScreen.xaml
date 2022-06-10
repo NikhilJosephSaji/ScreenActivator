@@ -266,7 +266,7 @@
                     <WrapPanel Margin="0,10,0,0">
                         <TextBlock Text="Enable REC Sizeable" Width="150" FontSize="15"/>
                         <TextBlock Text=":"  FontSize="15"/>
-                        <ToggleButton Margin="50,0,0,0"  x:Name="EnableRecordSizeable" Width="37" Height="20" VerticalAlignment="Center" Style="{StaticResource SwitchTypeToggleButton}" Cursor="Hand"/>
+                        <ToggleButton Margin="50,0,0,0"  x:Name="EnableRECSizeable" Width="37" Height="20" VerticalAlignment="Center" Style="{StaticResource SwitchTypeToggleButton}" Cursor="Hand"/>
                     </WrapPanel>
                     <WrapPanel Margin="0,10,0,0">
                         <TextBlock Text="Enable Screen REC" Width="150" FontSize="15"/>
