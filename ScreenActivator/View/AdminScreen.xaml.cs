@@ -70,6 +70,7 @@ namespace ScreenActivator
             xml.Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value = SetValuetoXml(EnableScreenDrag.IsChecked.ToString());
             xml.Xml.Element(Encryption.StringToHex("EnableSpeech")).Value = SetValuetoXml(EnableSpeech.IsChecked.ToString());
             xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value = SetValuetoXml(EnableLog.IsChecked.ToString());
+            xml.Xml.Element(Encryption.StringToHex("EnableRECSizeable")).Value = SetValuetoXml(EnableRECSizeable.IsChecked.ToString());
             _drag_Value = xml.XmlStringToBool(new XmlHelper().Xml.Element(Encryption.StringToHex("EnableScreenDrag")).Value);
             if (xml.SaveXml() == 1)
             {
@@ -104,6 +105,7 @@ namespace ScreenActivator
         {
             xml = new XmlHelper();
             UrlBox.Text = Encryption.Decrypt(xml.Xml.Element(Encryption.StringToHex("ScreenRecordPath")).Value);
+            EnableRECSizeable.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableRECSizeable")).Value);
             EnableScreenRecord.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenRecord")).Value);
             DisableMicroPhone.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableMicroPhone")).Value);
             DisableSpeaker.IsChecked = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("DisableSpeaker")).Value);
