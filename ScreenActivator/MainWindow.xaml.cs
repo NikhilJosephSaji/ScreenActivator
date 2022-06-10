@@ -13,7 +13,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using VisioForge.Controls.VideoCapture;
-using VisioForge.Types;
 using VisioForge.Types.Output;
 using VisioForge.Types.VideoCapture;
 using Msg = CustomMessageBox;
@@ -467,12 +466,13 @@ namespace ScreenActivator
 
         private async void Record_Click(object sender, RoutedEventArgs e)
         {
+            helper.ShowLoader(true);
             Sound?.ClickSound();
             Speech?.Speak("Screen Record Button Clicked");
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
-                Thread.Sleep(2000);
+                await Task.Run(()=> Thread.Sleep(2000));
                 new RecordAreaWindow(helper, this).ShowDialog();
                 SetRecordArea(core);
                 var file = ScreenGlobal.ScreenRcordPath.EndsWith("\\") ? "ScreenRecord" : "\\ScreenRecord";
@@ -489,7 +489,7 @@ namespace ScreenActivator
                 await core.StopAsync();
                 _recordCanStart = true;
                 Sound?.ExclamationSound();
-                Thread.Sleep(2000);
+                await Task.Run(() => Thread.Sleep(2000));
                 var msg = "Recording Saved Sucessfully !";
                 Speech?.Speak(msg);
                 Msg.CustomMessageBox.Show(msg);
@@ -498,6 +498,7 @@ namespace ScreenActivator
                 System.Diagnostics.Process.Start("explorer.exe", argument);
                 Record.Background = Brushes.White;
             }
+            helper.ShowLoader(false);
         }
 
         #endregion
