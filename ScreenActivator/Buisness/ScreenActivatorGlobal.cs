@@ -15,5 +15,6 @@ namespace ScreenActivator.Buisness
         public bool EnableLog;
         public bool EnableScreenRecord;
         public string ScreenRcordPath;
+        public bool EnableRECSizeable;
     }
 }
