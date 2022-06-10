@@ -24,18 +24,6 @@
                     </Border.Background>
                     <Button FontFamily="Segoe UI" Foreground="White"  FontWeight="SemiBold" Cursor="Hand" FontSize="14" Background="Transparent" BorderThickness="0" Margin="-1" Height="30" Width="95" x:Name="FullScreenButton" Content="Full Screen" Click="FullScreenButton_Click"/>
                 </Border>
-                <Border x:Name="ChooseSizeButtonBorder" Margin="10,0,0,0" BorderThickness="1" BorderBrush="White" CornerRadius="5" Height="30" Width="95">
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="#FFF33838" Offset="1"/>
-                            <GradientStop Color="#FFEC1A1A" Offset="0.859"/>
-                            <GradientStop Color="#FFCF0F0F"/>
-                            <GradientStop Color="#FFE42525" Offset="0.096"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Button FontFamily="Segoe UI" Foreground="White"  FontWeight="SemiBold" Cursor="Hand" FontSize="14" Background="Transparent" BorderThickness="0" Margin="-1" Height="30" Width="95"  x:Name="ChooseSizeButton" Content="Choose Size"  Click="ChooseSizeButton_Click"/>
-                </Border>
                 <Border x:Name="ConfirmSizeBorder" Margin="10,0,0,0" BorderThickness="1" BorderBrush="White" CornerRadius="5" Height="30" Width="95">
                     <Border.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
