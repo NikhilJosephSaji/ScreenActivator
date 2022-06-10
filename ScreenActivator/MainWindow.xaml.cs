@@ -1,5 +1,6 @@
 ﻿using Logger;
 using ScreenActivator.Buisness;
+using ScreenActivator.View;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -89,7 +90,7 @@ namespace ScreenActivator
             loadingMsg.Content = "Please Wait...";
             await Task.Run(() => Thread.Sleep(800));
             help = new WindowInteropHelper(this);
-            source = HwndSource.FromHwnd(help.Handle);           
+            source = HwndSource.FromHwnd(help.Handle);
             GetXml();
             ApplySettings();
             loadingMsg.Content = "Setting Applied...";
@@ -221,12 +222,28 @@ namespace ScreenActivator
             core = new VideoCaptureCore();
             core.Audio_CaptureDevice = new AudioCaptureSource("VisioForge What You Hear Source");
             core.Audio_CaptureDevice.Format_UseBest = true;
-            core.Screen_Capture_Source = new VisioForge.Types.VideoCapture.ScreenCaptureSourceSettings() { FullScreen = true };
+            core.Screen_Capture_Source = new VisioForge.Types.VideoCapture.ScreenCaptureSourceSettings();
             core.Audio_PlayAudio = false;
             core.Audio_RecordAudio = true;
             core.Output_Format = new MP4Output();
             core.Mode = VideoCaptureMode.ScreenCapture;
             core.OnError += Core_OnError;
+        }
+
+        private void SetRecordArea(VideoCaptureCore core)
+        {
+            if (helper.Width != 0 && helper.Height != 0 && helper.Top != 0 && helper.Left != 0)
+            {
+                core.Screen_Capture_Source.FullScreen = false;
+                int height = (int)SystemParameters.FullPrimaryScreenHeight;
+                int width = (int)SystemParameters.FullPrimaryScreenWidth;
+                core.Screen_Capture_Source.Top = helper.Top <= 0 ? 0 : helper.Top;
+                core.Screen_Capture_Source.Bottom = helper.Height > height ? height : helper.Height;
+                core.Screen_Capture_Source.Left = helper.Left <= 0 ? 0 : helper.Left;
+                core.Screen_Capture_Source.Right = helper.Width > width ? width : helper.Width;
+            }
+            else
+                core.Screen_Capture_Source.FullScreen = true;
         }
 
         private void Core_OnError(object sender, VisioForge.Types.Events.ErrorsEventArgs e)
@@ -453,6 +470,8 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
+                new RecordAreaWindow(helper, this).ShowDialog();
+                SetRecordArea(core);
                 var file = ScreenGlobal.ScreenRcordPath.EndsWith("\\") ? "ScreenRecord" : "\\ScreenRecord";
                 filename = helper.GenerateFileName(ScreenGlobal.ScreenRcordPath + file);
                 core.Output_Filename = filename;
