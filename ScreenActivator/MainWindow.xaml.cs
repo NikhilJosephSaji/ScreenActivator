@@ -40,8 +40,6 @@ namespace ScreenActivator
         private bool mouseRunning = false;
         private int adminScreenCount = 0;
         private ScreenActivatorHelper helper;
-        private WindowInteropHelper help;
-        private HwndSource source;
         private VideoCaptureCore core;
         private bool _recordCanStart = true;
         private string filename;
@@ -88,8 +86,6 @@ namespace ScreenActivator
             helper.ShowLoader(true);
             loadingMsg.Content = "Please Wait...";
             await Task.Run(() => Thread.Sleep(800));
-            help = new WindowInteropHelper(this);
-            source = HwndSource.FromHwnd(help.Handle);
             GetXml();
             ApplySettings();
             loadingMsg.Content = "Setting Applied...";
@@ -104,18 +100,6 @@ namespace ScreenActivator
             Sound?.ExclamationSound();
             Speech?.Speak("ScreenActivator Loaded");
             helper.ShowLoader(false);
-        }
-
-        private void EnableDisableDrag(bool isNeeded)
-        {
-            if (!isNeeded)
-            {
-                source.AddHook(helper.WndProcNoMove);
-            }
-            else
-            {
-                source.RemoveHook(helper.WndProcNoMove);
-            }
         }
 
         public void ApplySettings()
@@ -135,11 +119,6 @@ namespace ScreenActivator
                 helper.DisableEnableSpeaker(ScreenGlobal.DisableSpeaker);
                 GetSpeakerandMicStatus(true);
             }
-
-            if (ScreenGlobal.EnableScreenDrag)
-                EnableDisableDrag(true);
-            else
-                EnableDisableDrag(false);
 
             helper.ApplySoundSettings();
             helper.ApplySpeechSettings();
@@ -239,10 +218,10 @@ namespace ScreenActivator
                 int width = (int)SystemParameters.FullPrimaryScreenWidth;
                 helper.Top = helper.Top <= 0 ? 0 : helper.Top;
                 helper.Left = helper.Left <= 0 ? 0 : helper.Left;
-                core.Screen_Capture_Source.Top =  helper.Top;
+                core.Screen_Capture_Source.Top = helper.Top;
                 core.Screen_Capture_Source.Bottom = helper.Height + helper.Top > height ? height : helper.Height + helper.Top;
                 core.Screen_Capture_Source.Left = helper.Left;
-                core.Screen_Capture_Source.Right = helper.Width + helper.Left > width ? width : helper.Width + helper.Left;                
+                core.Screen_Capture_Source.Right = helper.Width + helper.Left > width ? width : helper.Width + helper.Left;
             }
             else
                 core.Screen_Capture_Source.FullScreen = true;
@@ -336,8 +315,11 @@ namespace ScreenActivator
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            base.OnMouseLeftButtonDown(e);
-            this.DragMove();
+            if (ScreenGlobal.EnableScreenDrag)
+            {
+                base.OnMouseLeftButtonDown(e);
+                this.DragMove();
+            }
         }
 
         void OnStateChanged(object sender, EventArgs args)
@@ -473,8 +455,8 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
-                await Task.Run(()=> Thread.Sleep(2000));
-                if(ScreenGlobal.EnableRECSizeable)
+                await Task.Run(() => Thread.Sleep(2000));
+                if (ScreenGlobal.EnableRECSizeable)
                     new RecordAreaWindow(helper, this).ShowDialog();
                 SetRecordArea(core);
                 var file = ScreenGlobal.ScreenRcordPath.EndsWith("\\") ? "ScreenRecord" : "\\ScreenRecord";
