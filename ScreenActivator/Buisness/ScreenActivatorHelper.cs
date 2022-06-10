@@ -14,6 +14,11 @@ namespace ScreenActivator.Buisness
         private bool speakerEvent;
         private bool micEvent;
 
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Top { get; set; }
+        public int Left { get; set; }
+
         public ScreenActivatorHelper(MainWindow win)
         {
             _win = win;
