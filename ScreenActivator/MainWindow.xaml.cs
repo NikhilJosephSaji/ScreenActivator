@@ -474,7 +474,8 @@ namespace ScreenActivator
             if (_recordCanStart)
             {
                 await Task.Run(()=> Thread.Sleep(2000));
-                new RecordAreaWindow(helper, this).ShowDialog();
+                if(ScreenGlobal.EnableRECSizeable)
+                    new RecordAreaWindow(helper, this).ShowDialog();
                 SetRecordArea(core);
                 var file = ScreenGlobal.ScreenRcordPath.EndsWith("\\") ? "ScreenRecord" : "\\ScreenRecord";
                 filename = helper.GenerateFileName(ScreenGlobal.ScreenRcordPath + file);
