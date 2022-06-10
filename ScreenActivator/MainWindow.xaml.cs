@@ -237,10 +237,12 @@ namespace ScreenActivator
                 core.Screen_Capture_Source.FullScreen = false;
                 int height = (int)SystemParameters.FullPrimaryScreenHeight;
                 int width = (int)SystemParameters.FullPrimaryScreenWidth;
-                core.Screen_Capture_Source.Top = helper.Top <= 0 ? 0 : helper.Top;
-                core.Screen_Capture_Source.Bottom = helper.Height > height ? height : helper.Height;
-                core.Screen_Capture_Source.Left = helper.Left <= 0 ? 0 : helper.Left;
-                core.Screen_Capture_Source.Right = helper.Width > width ? width : helper.Width;
+                helper.Top = helper.Top <= 0 ? 0 : helper.Top;
+                helper.Left = helper.Left <= 0 ? 0 : helper.Left;
+                core.Screen_Capture_Source.Top =  helper.Top;
+                core.Screen_Capture_Source.Bottom = helper.Height + helper.Top > height ? height : helper.Height + helper.Top;
+                core.Screen_Capture_Source.Left = helper.Left;
+                core.Screen_Capture_Source.Right = helper.Width + helper.Left > width ? width : helper.Width + helper.Left;                
             }
             else
                 core.Screen_Capture_Source.FullScreen = true;
@@ -470,12 +472,12 @@ namespace ScreenActivator
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Application Screen Record Button Clicked");
             if (_recordCanStart)
             {
+                Thread.Sleep(2000);
                 new RecordAreaWindow(helper, this).ShowDialog();
                 SetRecordArea(core);
                 var file = ScreenGlobal.ScreenRcordPath.EndsWith("\\") ? "ScreenRecord" : "\\ScreenRecord";
                 filename = helper.GenerateFileName(ScreenGlobal.ScreenRcordPath + file);
                 core.Output_Filename = filename;
-                Thread.Sleep(2000);
                 _recordCanStart = false;
                 await core.StartAsync();
                 Speech?.Speak("Recording Started.");
