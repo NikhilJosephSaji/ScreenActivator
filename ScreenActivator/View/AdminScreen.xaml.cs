@@ -87,7 +87,7 @@ namespace ScreenActivator
                 if (EnableScreenDrag.IsChecked.Value)
                 {
                     _win.Sound?.ExclamationSound();
-                    var msg = "Restart is Required as the Screen Drag is Enabled. Do you want to Restart.";
+                    var msg = "Restart is May be Required as the Screen Drag is Enabled. Do you want to Restart.";
                     _win.Speech?.Speak(msg);
                     if (Msg.CustomMessageBox.Show(msg, "Warning", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                         new ScreenActivatorHelper(_win).RestartMyApplication();
