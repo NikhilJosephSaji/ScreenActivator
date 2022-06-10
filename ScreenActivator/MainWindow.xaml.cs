@@ -163,6 +163,7 @@ namespace ScreenActivator
             ScreenGlobal.EnableLog = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableLog")).Value);
             ScreenGlobal.EnableScreenRecord = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableScreenRecord")).Value);
             ScreenGlobal.ScreenRcordPath = Encryption.Decrypt(xml.Xml.Element(Encryption.StringToHex("ScreenRecordPath")).Value);
+            ScreenGlobal.EnableRECSizeable = xml.XmlStringToBool(xml.Xml.Element(Encryption.StringToHex("EnableRECSizeable")).Value);
             Logger?.Log.LogInfo(LogLevel.SummaryInfo, "Xml Data Loaded");
         }
 
