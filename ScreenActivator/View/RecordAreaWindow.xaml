@@ -1,0 +1,54 @@
+﻿<Window x:Class="ScreenActivator.View.RecordAreaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScreenActivator.View" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        Height="300" Width="700" >
+    <Window.Background>
+        <SolidColorBrush Opacity="0.2" Color="White"/>
+    </Window.Background>
+    <Grid>
+        <Border BorderBrush="red" BorderThickness="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <Border Margin="10,0,0,0" BorderThickness="1" BorderBrush="White" CornerRadius="5" Height="30" Width="95">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FFF33838" Offset="1"/>
+                            <GradientStop Color="#FFEC1A1A" Offset="0.859"/>
+                            <GradientStop Color="#FFCF0F0F"/>
+                            <GradientStop Color="#FFE42525" Offset="0.096"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Button FontFamily="Segoe UI" Foreground="White"  FontWeight="SemiBold" Cursor="Hand" FontSize="14" Background="Transparent" BorderThickness="0" Margin="-1" Height="30" Width="95" x:Name="FullScreenButton" Content="Full Screen" Click="FullScreenButton_Click"/>
+                </Border>
+                <Border x:Name="ChooseSizeButtonBorder" Margin="10,0,0,0" BorderThickness="1" BorderBrush="White" CornerRadius="5" Height="30" Width="95">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FFF33838" Offset="1"/>
+                            <GradientStop Color="#FFEC1A1A" Offset="0.859"/>
+                            <GradientStop Color="#FFCF0F0F"/>
+                            <GradientStop Color="#FFE42525" Offset="0.096"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Button FontFamily="Segoe UI" Foreground="White"  FontWeight="SemiBold" Cursor="Hand" FontSize="14" Background="Transparent" BorderThickness="0" Margin="-1" Height="30" Width="95"  x:Name="ChooseSizeButton" Content="Choose Size"  Click="ChooseSizeButton_Click"/>
+                </Border>
+                <Border x:Name="ConfirmSizeBorder" Margin="10,0,0,0" BorderThickness="1" BorderBrush="White" CornerRadius="5" Height="30" Width="95">
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="#FFF33838" Offset="1"/>
+                            <GradientStop Color="#FFEC1A1A" Offset="0.859"/>
+                            <GradientStop Color="#FFCF0F0F"/>
+                            <GradientStop Color="#FFE42525" Offset="0.096"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Button FontFamily="Segoe UI" Foreground="White"  FontWeight="SemiBold" Cursor="Hand" FontSize="14" Background="Transparent" BorderThickness="0" Height="30" Width="95" x:Name="ConfirmSize" Content="Confirm Size" Margin="-1" Click="ConfirmSize_Click"/>
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
